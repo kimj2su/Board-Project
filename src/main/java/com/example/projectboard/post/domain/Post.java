@@ -1,11 +1,14 @@
 package com.example.projectboard.post.domain;
 
+import com.example.projectboard.member.domain.Member;
 import com.example.projectboard.support.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Where;
 
@@ -18,6 +21,10 @@ public class Post extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     private String title;
 
     @Lob
@@ -25,13 +32,18 @@ public class Post extends BaseEntity {
 
     protected Post() {}
 
-    public Post(String title, String content) {
+    public Post(Member member, String title, String content) {
+        this.member = member;
         this.title = title;
         this.content = content;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Member getMember() {
+        return member;
     }
 
     public String getTitle() {
@@ -48,10 +60,16 @@ public class Post extends BaseEntity {
 
     public static class PostBuilder {
 
+        private Member member;
         private String title;
         private String content;
 
         PostBuilder() {}
+
+        public PostBuilder member(Member member) {
+            this.member = member;
+            return this;
+        }
 
         public PostBuilder title(String title) {
             this.title = title;
@@ -64,7 +82,7 @@ public class Post extends BaseEntity {
         }
 
         public Post build() {
-            return new Post(title, content);
+            return new Post(member, title, content);
         }
     }
 }
