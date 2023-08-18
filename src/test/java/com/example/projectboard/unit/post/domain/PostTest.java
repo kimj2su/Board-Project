@@ -26,6 +26,23 @@ class PostTest {
         assertThat(post.getContent()).isEqualTo("content");
     }
 
+    @DisplayName("Post 수정 테스트")
+    @Test
+    void modifyPost() {
+        Member member = createMember();
+        Post post = Post.builder()
+                .member(member)
+                .title("title")
+                .content("content")
+                .build();
+
+        post.modifyPost("title2", "content2");
+
+        assertThat(post.getMember()).isEqualTo(member);
+        assertThat(post.getTitle()).isEqualTo("title2");
+        assertThat(post.getContent()).isEqualTo("content2");
+    }
+
     private Member createMember() {
         return Member.builder()
                 .email("email@email.com")

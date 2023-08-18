@@ -54,6 +54,11 @@ public class Post extends BaseEntity {
         return content;
     }
 
+    public void modifyPost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     public static PostBuilder builder() {
         return new PostBuilder();
     }
