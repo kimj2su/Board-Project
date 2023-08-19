@@ -27,3 +27,9 @@ spring:
     hikari:
       data-source-properties:
         rewriteBatchedStatements: true
+
+# JWT
+jwt:
+  secret-key: com.example.kim_ji_su.application-2023.secret_key
+  #30 days
+  token-expired-time-ms: 2592000000

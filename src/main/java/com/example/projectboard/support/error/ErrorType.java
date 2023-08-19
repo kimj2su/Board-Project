@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
     DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "An unexpected error has occurred."),
     MEMBER_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Member not found."),
+    MEMBER_PASSWORD_NOT_MATCH_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Password not match."),
+    INVALID_PERMISSION(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Invalid permission."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Invalid token."),
+
     ;
 
     private final HttpStatus status;

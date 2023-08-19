@@ -2,6 +2,8 @@ package com.example.projectboard.member.domain;
 
 import com.example.projectboard.support.entity.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +27,9 @@ public class Member extends BaseEntity {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private final MemberRole memberRole = MemberRole.USER;
+
     protected Member() {}
 
     public Member(String name, String email, String password) {
@@ -47,6 +52,10 @@ public class Member extends BaseEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public MemberRole getMemberRole() {
+        return memberRole;
     }
 
     public void modify(String name, String email) {
