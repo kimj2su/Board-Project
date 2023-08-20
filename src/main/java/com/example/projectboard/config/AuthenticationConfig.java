@@ -3,7 +3,6 @@ package com.example.projectboard.config;
 import com.example.projectboard.config.filter.ExceptionHandlerFilter;
 import com.example.projectboard.config.filter.JwtTokenFilter;
 import com.example.projectboard.member.application.MemberService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,8 +34,7 @@ public class AuthenticationConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/*/users/join", "/api/*/users/login", "/error").permitAll()
-                        .requestMatchers("/members/**", "/", "/error").permitAll()
+                        .requestMatchers("/members/**", "/", "/auth/login", "/error").permitAll()
                         .requestMatchers("/", "/home").hasRole("USER")
                         .anyRequest().authenticated()
         )

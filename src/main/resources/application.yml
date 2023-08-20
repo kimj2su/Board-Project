@@ -1,9 +1,12 @@
+
 spring:
   jpa:
     open-in-view: false
     properties:
       hibernate:
         default_batch_fetch_size: 100
+  profiles:
+    default: local
 
 logging:
   level:

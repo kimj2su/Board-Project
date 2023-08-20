@@ -35,13 +35,13 @@ public class MemberController {
     }
 
     @PatchMapping("/{id}")
-    public ApiResponse<?> modifyMember(@PathVariable Long id, @RequestBody ModifyMemberRequestDto request) {
+    public ApiResponse<Void> modifyMember(@PathVariable Long id, @RequestBody ModifyMemberRequestDto request) {
         memberService.modifyMember(id, request.toMemberDto());
         return ApiResponse.success();
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<?> deleteMember(@PathVariable Long id) {
+    public ApiResponse<Void> deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
         return ApiResponse.success();
     }

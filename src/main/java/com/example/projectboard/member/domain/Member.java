@@ -58,6 +58,10 @@ public class Member extends BaseEntity {
         return memberRole;
     }
 
+    public void encryptPassword(String password) {
+        this.password = password;
+    }
+
     public void modify(String name, String email) {
         this.name = name;
         this.email = email;

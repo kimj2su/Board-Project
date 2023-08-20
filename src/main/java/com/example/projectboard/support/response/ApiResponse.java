@@ -15,7 +15,7 @@ public class ApiResponse<S> {
         this.error = error;
     }
 
-    public static ApiResponse<?> success() {
+    public static ApiResponse<Void> success() {
         return new ApiResponse<>(ResultType.SUCCESS, null, null);
     }
 
@@ -23,11 +23,11 @@ public class ApiResponse<S> {
         return new ApiResponse<>(ResultType.SUCCESS, data, null);
     }
 
-    public static ApiResponse<?> error(ErrorType error) {
+    public static ApiResponse<Object> error(ErrorType error) {
         return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error));
     }
 
-    public static ApiResponse<?> error(ErrorType error, Object errorData) {
+    public static ApiResponse<Object> error(ErrorType error, Object errorData) {
         return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error, errorData));
     }
 
