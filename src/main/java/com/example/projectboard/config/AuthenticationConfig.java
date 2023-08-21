@@ -35,7 +35,8 @@ public class AuthenticationConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/members/**", "/", "/auth/login", "/error").permitAll()
-                        .requestMatchers("/", "/home").hasRole("USER")
+                        // .requestMatchers("/", "/home").hasRole("USER")
+                        .requestMatchers("/posts/**").hasAuthority("USER")
                         .anyRequest().authenticated()
         )
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

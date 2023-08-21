@@ -1,4 +1,4 @@
-package com.example.projectboard.unit.auth.application;
+package com.example.projectboard.unit.auth;
 
 
 import com.example.projectboard.auth.application.AuthService;

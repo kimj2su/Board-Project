@@ -1,4 +1,4 @@
-package com.example.projectboard.unit.post.domain;
+package com.example.projectboard.unit.post;
 
 
 import com.example.projectboard.member.domain.Member;

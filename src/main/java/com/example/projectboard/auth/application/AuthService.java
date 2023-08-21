@@ -28,7 +28,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public String login(AuthDto authDto) {
-        MemberDto memberDto = memberService.loadUserByName(authDto.email());
+        MemberDto memberDto = memberService.loadMemberByEmail(authDto.email());
 
         if (!passwordEncoder.matches(authDto.password(), memberDto.password())) {
             throw new MemberException(ErrorType.MEMBER_PASSWORD_NOT_MATCH_ERROR, "로그인 정보가 일치하지 않습니다.");

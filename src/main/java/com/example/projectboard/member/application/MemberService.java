@@ -47,7 +47,7 @@ public class MemberService {
         member.deleted();
     }
 
-    public MemberDto loadUserByName(String email) {
+    public MemberDto loadMemberByEmail(String email) {
         return  memberRepository.findByEmail(email).map(MemberDto::from).orElseThrow(() ->
                 new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s no founded", email)));
     }
