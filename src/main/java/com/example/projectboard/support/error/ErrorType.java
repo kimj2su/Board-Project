@@ -10,6 +10,7 @@ public enum ErrorType {
     INVALID_PERMISSION(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Invalid permission."),
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Invalid token."),
 
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Post not found."),
     ;
 
     private final HttpStatus status;

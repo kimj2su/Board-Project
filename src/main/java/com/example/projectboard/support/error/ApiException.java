@@ -5,7 +5,7 @@ public class ApiException extends RuntimeException {
     private final Object data;
 
     public ApiException(ErrorType errorType, Object data) {
-        super(errorType.getMessage());
+        super(data == null ? errorType.getMessage() : data.toString());
         this.errorType = errorType;
         this.data = data;
     }

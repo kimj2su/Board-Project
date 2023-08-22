@@ -5,11 +5,13 @@ import com.example.projectboard.member.application.dto.MemberDto;
 import com.example.projectboard.member.domain.MemberRole;
 import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
+import com.example.projectboard.support.error.PostException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Post 서비스 테스트")
 public class PostServiceTest extends AcceptanceTest {
@@ -33,6 +35,62 @@ public class PostServiceTest extends AcceptanceTest {
         assertThat(postdto.content()).isEqualTo("content");
         assertThat(postdto.memberDto().name()).isEqualTo("김지수");
         assertThat(postdto.memberDto().email()).isEqualTo("jisu@email.com");
+    }
+
+    @DisplayName("Post 수정 테스트")
+    @Test
+    void modifyPost() {
+        // given : 선행조건 기술
+        MemberDto memberDto = createMemberDto();
+        PostDto request = createPostDto(memberDto);
+        PostDto postdto = postService.createPost(request);
+        Long id = postdto.id();
+
+        // when : 기능 수행
+        postService.modifyPost(id, new PostDto(null, memberDto, "title2", "content2"));
+
+        // then : 결과 확인
+        PostDto findPost = postService.findPost(id);
+        assertThat(findPost.id()).isEqualTo(1L);
+        assertThat(findPost.title()).isEqualTo("title2");
+        assertThat(findPost.content()).isEqualTo("content2");
+    }
+
+    @DisplayName("Post 조회 테스트")
+    @Test
+    void findPost() {
+        // given : 선행조건 기술
+        MemberDto memberDto = createMemberDto();
+        PostDto request = createPostDto(memberDto);
+        PostDto postdto = postService.createPost(request);
+        Long id = postdto.id();
+
+        // when : 기능 수행
+        PostDto findPost = postService.findPost(id);
+
+        // then : 결과 확인
+        assertThat(findPost.id()).isEqualTo(1L);
+        assertThat(findPost.title()).isEqualTo("title");
+        assertThat(findPost.content()).isEqualTo("content");
+    }
+
+    @DisplayName("Post 삭제 테스트")
+    @Test
+    void deletePost() {
+        // given : 선행조건 기술
+        MemberDto memberDto = createMemberDto();
+        PostDto request = createPostDto(memberDto);
+        PostDto postdto = postService.createPost(request);
+        Long id = postdto.id();
+
+        // when : 기능 수행
+        postService.deletePost(id);
+
+        // then : 결과 확인
+        assertThatThrownBy(() -> {
+            postService.findPost(id);
+        }).isInstanceOf(PostException.class)
+                .hasMessageContaining("게시글이 존재하지 않습니다.");
     }
 
     private PostDto createPostDto(MemberDto memberDto) {
