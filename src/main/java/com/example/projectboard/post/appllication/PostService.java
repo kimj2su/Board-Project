@@ -1,9 +1,12 @@
 package com.example.projectboard.post.appllication;
 
+import com.example.projectboard.member.domain.Member;
+import com.example.projectboard.member.domain.MemberRepository;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.post.domain.Post;
 import com.example.projectboard.post.domain.PostRepository;
 import com.example.projectboard.support.error.ErrorType;
+import com.example.projectboard.support.error.MemberException;
 import com.example.projectboard.support.error.PostException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, MemberRepository memberRepository) {
         this.postRepository = postRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Transactional(readOnly = true)
@@ -25,7 +30,9 @@ public class PostService {
     }
 
     public PostDto createPost(PostDto postDto) {
-        return PostDto.from(postRepository.save(postDto.toEntity()));
+        Member member = memberRepository.findByEmail(postDto.memberDto().email())
+                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원이 존재하지 않습니다.", postDto.memberDto().email())));
+        return PostDto.from(postRepository.save(postDto.toEntity(member)));
     }
 
     public void modifyPost(Long id, PostDto postDto) {

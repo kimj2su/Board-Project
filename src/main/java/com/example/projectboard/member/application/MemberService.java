@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class MemberService {
@@ -26,6 +28,11 @@ public class MemberService {
         Member member = memberDto.toEntity();
         member.encryptPassword(passwordEncoder.encode(memberDto.password()));
         return MemberDto.from(memberRepository.save(member));
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemberDto> findAllMembers() {
+        return memberRepository.findAll().stream().map(MemberDto::from).toList();
     }
 
     @Transactional(readOnly = true)
