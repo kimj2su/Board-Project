@@ -2,6 +2,8 @@ package com.example.projectboard.post.domain;
 
 import com.example.projectboard.member.domain.Member;
 import com.example.projectboard.support.entity.BaseEntity;
+import com.example.projectboard.support.error.ErrorType;
+import com.example.projectboard.support.error.PostException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -61,6 +63,12 @@ public class Post extends BaseEntity {
     public void modifyPost(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void validationMember(Member member) {
+        if (member != member) {
+            throw new PostException(ErrorType.MEMBER_PERMISSION_ERROR, "작성자가 아닙니다.");
+        }
     }
 
     public static PostBuilder builder() {

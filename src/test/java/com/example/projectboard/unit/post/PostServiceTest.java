@@ -2,10 +2,13 @@ package com.example.projectboard.unit.post;
 
 import com.example.projectboard.acceptance.AcceptanceTest;
 import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.member.domain.Member;
+import com.example.projectboard.member.domain.MemberRepository;
 import com.example.projectboard.member.domain.MemberRole;
 import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.support.error.PostException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +22,20 @@ public class PostServiceTest extends AcceptanceTest {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
+    private MemberDto memberDto;
+    @BeforeEach
+    void before() {
+        Member member = memberRepository.save(createMemberDto().toEntity());
+        memberDto = MemberDto.from(member);
+    }
+
     @DisplayName("Post 생성 테스트")
     @Test
     void createPost() {
         // given : 선행조건 기술
-        MemberDto memberDto = createMemberDto();
         PostDto request = createPostDto(memberDto);
 
         // when : 기능 수행
@@ -41,7 +53,6 @@ public class PostServiceTest extends AcceptanceTest {
     @Test
     void modifyPost() {
         // given : 선행조건 기술
-        MemberDto memberDto = createMemberDto();
         PostDto request = createPostDto(memberDto);
         PostDto postdto = postService.createPost(request);
         Long id = postdto.id();
@@ -60,7 +71,6 @@ public class PostServiceTest extends AcceptanceTest {
     @Test
     void findPost() {
         // given : 선행조건 기술
-        MemberDto memberDto = createMemberDto();
         PostDto request = createPostDto(memberDto);
         PostDto postdto = postService.createPost(request);
         Long id = postdto.id();
@@ -78,13 +88,12 @@ public class PostServiceTest extends AcceptanceTest {
     @Test
     void deletePost() {
         // given : 선행조건 기술
-        MemberDto memberDto = createMemberDto();
         PostDto request = createPostDto(memberDto);
         PostDto postdto = postService.createPost(request);
         Long id = postdto.id();
 
         // when : 기능 수행
-        postService.deletePost(id);
+        postService.deletePost(id, memberDto);
 
         // then : 결과 확인
         assertThatThrownBy(() -> {

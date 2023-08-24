@@ -51,8 +51,8 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    public ApiResponse<Void> deletePost(@PathVariable Long id, @AuthenticationPrincipal MemberDto memberDto) {
+        postService.deletePost(id, memberDto);
         return ApiResponse.success();
     }
 }
