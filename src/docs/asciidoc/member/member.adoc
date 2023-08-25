@@ -1,0 +1,3 @@
+=== 회원 조회
+operation::member[snippets='http-request,path-parameters']
+operation::member[snippets='http-response,response-fields']

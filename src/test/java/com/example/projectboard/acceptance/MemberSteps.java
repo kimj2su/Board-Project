@@ -5,6 +5,7 @@ import com.example.projectboard.member.application.dto.v1.request.ModifyMemberRe
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -54,4 +55,12 @@ public class MemberSteps {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value()).extract();
     }
+
+    public static ExtractableResponse<Response> 회원_조회_요청_문서화(Long id, RequestSpecification requestSpecification) {
+        return requestSpecification
+                .when().get("/members/{id}", id)
+                .then().log().all()
+                .extract();
+    }
+
 }
