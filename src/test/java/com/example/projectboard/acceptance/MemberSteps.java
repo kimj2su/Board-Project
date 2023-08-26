@@ -63,4 +63,30 @@ public class MemberSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 회원_생성_요청_문서화(RequestSpecification requestSpecification, CreateMemberRequestDto request) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 회원_수정_요청_문서화(RequestSpecification requestSpecification, ModifyMemberRequestDto request) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().patch("/members/{id}", 1L)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 회원_삭제_요청_문서화(RequestSpecification requestSpecification) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().delete("/members/{id}", 1L)
+                .then().log().all()
+                .extract();
+    }
+
 }

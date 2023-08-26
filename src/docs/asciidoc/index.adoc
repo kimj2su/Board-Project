@@ -1,4 +1,4 @@
-= Subway Application API Document
+= Board Application API Document
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs

@@ -17,9 +17,7 @@ import static org.springframework.restdocs.restassured.RestAssuredRestDocumentat
 
 @ActiveProfiles("local")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// @ExtendWith(RestDocumentationExtension.class)
-@ExtendWith(RestDocumentationExtension.class)
-@ExtendWith(MockitoExtension.class)
+@ExtendWith({RestDocumentationExtension.class, MockitoExtension.class})
 public class Documentation {
     protected RequestSpecification spec;
 
