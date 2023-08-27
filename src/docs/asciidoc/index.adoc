@@ -8,5 +8,7 @@
 
 [[path]]
 == 회원
-
 include::member/member.adoc[]
+
+== 게시글
+include::post/post.adoc[]

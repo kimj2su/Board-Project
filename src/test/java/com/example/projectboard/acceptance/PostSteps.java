@@ -5,6 +5,7 @@ import com.example.projectboard.post.appllication.dto.v1.request.ModifyPostReque
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -54,5 +55,15 @@ public class PostSteps {
                 .when().delete("/posts/" + id)
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value()).extract();
+    }
+
+    public static ExtractableResponse<Response> 게시글_생성_요청_문서화(String token, CreatePostRequestDto request, RequestSpecification requestSpecification) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer " + token)
+                .body(request)
+                .when().post("/posts")
+                .then().log().all()
+                .extract();
     }
 }

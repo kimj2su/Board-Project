@@ -1,11 +1,16 @@
 package com.example.projectboard.documentation;
 
+import com.example.projectboard.config.JwtTokenProperties;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -23,6 +28,9 @@ public class Documentation {
 
     @LocalServerPort
     int port;
+
+    @Autowired
+    protected JwtTokenProperties jwtTokenProperties;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
