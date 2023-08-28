@@ -1,5 +1,5 @@
 === 게시글 조회
-operation::post-find[snippets='http-request,path-parameters']
+operation::post-find[snippets='http-request,request-headers,path-parameters']
 operation::post-find[snippets='http-response,response-fields']
 
 === 게시글 생성
