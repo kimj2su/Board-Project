@@ -15,7 +15,9 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -124,7 +126,7 @@ class PostDocumentation extends Documentation {
         // given : 선행조건 기술
         PostDto postDto = postDto();
         ModifyPostRequestDto request = PostSteps.modifyRequest(title, content);
-        given(postService.createPost(any())).willReturn(postDto);
+        BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
 
         // when : 기능 수행
         RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
@@ -137,20 +139,14 @@ class PostDocumentation extends Documentation {
                                 fieldWithPath("content").description("내용")
                         ),
                         responseFields(
-                                fieldWithPath("result").description("결과"),
-                                fieldWithPath("data").description("응답 데이터"),
-                                fieldWithPath("data.id").description("게시글 아이디"),
-                                fieldWithPath("data.title").description("제목"),
-                                fieldWithPath("data.content").description("내용"),
-                                fieldWithPath("data.memberResponse.id").description("작성자 아이디"),
-                                fieldWithPath("data.memberResponse.name").description("작성자 이름"),
-                                fieldWithPath("data.memberResponse.email").description("작성자 이메일"),
-                                fieldWithPath("error").description("에러 내용")
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).description("응답 데이터"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
                         )
                 ));
 
         // then : 결과 확인
-        PostSteps.게시글_생성_요청_문서화(token, request, requestSpecification);
+        PostSteps.게시글_수정_요청_문서화(token, request, requestSpecification);
     }
 
     private PostDto postDto() {

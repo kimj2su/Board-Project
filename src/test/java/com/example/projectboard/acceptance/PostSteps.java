@@ -75,4 +75,14 @@ public class PostSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 게시글_수정_요청_문서화(String token, ModifyPostRequestDto request, RequestSpecification requestSpecification) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer " + token)
+                .body(request)
+                .when().patch("/posts/{id}", 1L)
+                .then().log().all()
+                .extract();
+    }
 }
