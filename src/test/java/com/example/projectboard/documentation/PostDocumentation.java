@@ -1,7 +1,6 @@
 package com.example.projectboard.documentation;
 
 import com.example.projectboard.acceptance.PostSteps;
-import com.example.projectboard.config.JwtTokenProperties;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
 import com.example.projectboard.member.domain.MemberRole;
@@ -52,7 +51,7 @@ class PostDocumentation extends Documentation {
         given(memberService.loadMemberByEmail(any())).willReturn(memberDto);
     }
 
-    @DisplayName("게시글 생성")
+    @DisplayName("게시글 생성 문서화")
     @Test
     void createPost() {
         // given : 선행조건 기술
@@ -87,7 +86,7 @@ class PostDocumentation extends Documentation {
         PostSteps.게시글_생성_요청_문서화(token, request, requestSpecification);
     }
 
-    @DisplayName("게시글 조회")
+    @DisplayName("게시글 조회 문서화")
     @Test
     void findPost() {
         // given : 선행조건 기술
@@ -120,19 +119,21 @@ class PostDocumentation extends Documentation {
         PostSteps.게시글_조회_요청_문서화(token, requestSpecification);
     }
 
-    @DisplayName("게시글 수정")
+    @DisplayName("게시글 수정 문서화")
     @Test
-    void modifyPost() {
+    void deletePost() {
         // given : 선행조건 기술
-        PostDto postDto = postDto();
         ModifyPostRequestDto request = PostSteps.modifyRequest(title, content);
-        BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
+        BDDMockito.willDoNothing().given(postService).deletePost(any(), any());
 
         // when : 기능 수행
         RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
-                .filter(document("post-modify",
+                .filter(document("post-delete",
                         requestHeaders(
                                 headerWithName("authorization").description("JWT 인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("게시글 아이디")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("제목"),
@@ -147,6 +148,32 @@ class PostDocumentation extends Documentation {
 
         // then : 결과 확인
         PostSteps.게시글_수정_요청_문서화(token, request, requestSpecification);
+    }
+
+    @DisplayName("게시글 삭제 문서화")
+    @Test
+    void modifyPost() {
+        // given : 선행조건 기술
+        BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
+
+        // when : 기능 수행
+        RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
+                .filter(document("post-delete",
+                        requestHeaders(
+                                headerWithName("authorization").description("JWT 인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("게시글 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).description("응답 데이터"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
+                        )
+                ));
+
+        // then : 결과 확인
+        PostSteps.게시글_삭제_요청_문서화(token, requestSpecification);
     }
 
     private PostDto postDto() {
