@@ -124,7 +124,6 @@ class PostDocumentation extends Documentation {
     @Test
     void modifyPost() {
         // given : 선행조건 기술
-        PostDto postDto = postDto();
         ModifyPostRequestDto request = PostSteps.modifyRequest(title, content);
         BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
 
@@ -147,6 +146,32 @@ class PostDocumentation extends Documentation {
 
         // then : 결과 확인
         PostSteps.게시글_수정_요청_문서화(token, request, requestSpecification);
+    }
+
+    @DisplayName("게시글 삭제 문서화")
+    @Test
+    void deltePost() {
+        // given : 선행조건 기술
+        BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
+
+        // when : 기능 수행
+        RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
+                .filter(document("post-delete",
+                        requestHeaders(
+                                headerWithName("authorization").description("JWT 인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("게시글 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).description("응답 데이터"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
+                        )
+                ));
+
+        // then : 결과 확인
+        PostSteps.게시글_삭제_요청_문서화(token, requestSpecification);
     }
 
     private PostDto postDto() {
