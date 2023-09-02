@@ -5,6 +5,7 @@ import com.example.projectboard.member.application.dto.v1.request.CreateMemberRe
 import com.example.projectboard.member.application.dto.v1.request.ModifyMemberRequestDto;
 import com.example.projectboard.member.application.dto.v1.response.MemberResponse;
 import com.example.projectboard.support.response.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,7 +31,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ApiResponse<MemberResponse> createMember(@RequestBody CreateMemberRequestDto request) {
+    public ApiResponse<MemberResponse> createMember(@RequestBody @Valid CreateMemberRequestDto request) {
         return ApiResponse.success(MemberResponse.from(memberService.createMember(request.toMemberDto())));
     }
 

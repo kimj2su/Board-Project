@@ -139,6 +139,36 @@ class MemberDocumentation extends Documentation {
         MemberSteps.회원_삭제_요청_문서화(requestSpecification);
     }
 
+    @DisplayName("회원 생성 예외 문서화")
+    @Test
+    void createMemberThrowsException() {
+        // given : 선행조건 기술
+        CreateMemberRequestDto request = new CreateMemberRequestDto("", "", "");
+
+        // when : 기능 수행
+        RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
+                .filter(document("member-create-error",
+                        requestFields(
+                                fieldWithPath("name").optional().description("회원 이름"),
+                                fieldWithPath("email").description("회원 이메일"),
+                                fieldWithPath("password").description("회원 비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).description("데이터"),
+                                fieldWithPath("error").type(JsonFieldType.OBJECT).description("에러 내용"),
+                                fieldWithPath("error.code").type(JsonFieldType.STRING).description("에러 코드"),
+                                fieldWithPath("error.message").type(JsonFieldType.STRING).description("예외 메세지"),
+                                fieldWithPath("error.data.name").type(JsonFieldType.STRING).description("예외 메세지"),
+                                fieldWithPath("error.data.email").type(JsonFieldType.STRING).description("예외 메세지"),
+                                fieldWithPath("error.data.password").type(JsonFieldType.STRING).description("예외 메세지")
+                        )
+                ));
+
+        // then : 결과 확인
+        MemberSteps.회원_생성_요청_문서화(requestSpecification, request);
+    }
+
     private MemberDto memberDto() {
         return new MemberDto(1L, name, email, password, MemberRole.USER);
     }
