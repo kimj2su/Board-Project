@@ -12,7 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -82,6 +85,25 @@ public class PostServiceTest extends AcceptanceTest {
         assertThat(findPost.id()).isEqualTo(1L);
         assertThat(findPost.title()).isEqualTo("title");
         assertThat(findPost.content()).isEqualTo("content");
+    }
+
+    @DisplayName("Post 조회 페이징 테스트")
+    @Test
+    void findAllPost() {
+        // given : 선행조건 기술
+        PostDto request = createPostDto(memberDto);
+        PostDto postdto = postService.createPost(request);
+        Long id = postdto.id();
+        Pageable pageable = Pageable.ofSize(20);
+
+        // when : 기능 수행
+        Page<PostDto> posts = postService.findAllPost(pageable);
+
+        // then : 결과 확인
+        assertThat(posts.getTotalElements()).isEqualTo(1L);
+        assertThat(posts).hasSize(1)
+                .extracting("id", "title", "content")
+                .contains(tuple(id, postdto.title(), postdto.content()));
     }
 
     @DisplayName("Post 삭제 테스트")

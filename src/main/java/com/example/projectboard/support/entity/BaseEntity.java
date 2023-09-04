@@ -23,6 +23,10 @@ public abstract class BaseEntity {
         return updatedAt;
     }
 
+    public String getDeleted() {
+        return deleted;
+    }
+
     public void deleted() {
         this.deleted = "Y";
     }

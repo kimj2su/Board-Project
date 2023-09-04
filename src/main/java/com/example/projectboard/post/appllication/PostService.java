@@ -9,6 +9,8 @@ import com.example.projectboard.post.domain.PostRepository;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.MemberException;
 import com.example.projectboard.support.error.PostException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,11 @@ public class PostService {
     public PostDto findPost(Long id) {
         return postRepository.findById(id).map(PostDto::from)
                 .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", id)));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostDto> findAllPost(Pageable pageable) {
+        return postRepository.findAllByDeletedOrderByCreatedAtDesc("N", pageable).map(PostDto::from);
     }
 
     public PostDto createPost(PostDto postDto) {

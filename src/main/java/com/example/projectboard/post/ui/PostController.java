@@ -6,6 +6,10 @@ import com.example.projectboard.post.appllication.dto.v1.request.CreatePostReque
 import com.example.projectboard.post.appllication.dto.v1.request.ModifyPostRequestDto;
 import com.example.projectboard.post.appllication.dto.v1.response.PostResponse;
 import com.example.projectboard.support.response.ApiResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +32,15 @@ public class PostController {
 
 
     @GetMapping("/{id}")
-    public ApiResponse<PostResponse> getPost(@PathVariable Long id) {
+    public ApiResponse<PostResponse> findPost(@PathVariable Long id) {
         return ApiResponse.success(PostResponse.from(postService.findPost(id)));
+    }
+
+    @GetMapping
+    public ApiResponse<Page<PostResponse>> findAllPost(
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ApiResponse.success(postService.findAllPost(pageable).map(PostResponse::from));
     }
 
     @PostMapping
