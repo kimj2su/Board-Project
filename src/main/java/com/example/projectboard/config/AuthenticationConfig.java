@@ -7,6 +7,7 @@ import com.example.projectboard.member.application.MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,7 +36,7 @@ public class AuthenticationConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/members/**", "/", "/auth/login", "/docs/**", "/error").permitAll()
-                        // .requestMatchers("/", "/home").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
                         .requestMatchers("/posts/**").hasAuthority("USER")
                         .anyRequest().authenticated()
         )
