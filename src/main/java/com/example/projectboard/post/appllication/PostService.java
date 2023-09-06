@@ -34,7 +34,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<PostDto> findAllPost(Pageable pageable) {
-        return postRepository.findAllByDeletedOrderByCreatedAtDesc("N", pageable).map(PostDto::from);
+        return postRepository.findAll(pageable).map(PostDto::from);
     }
 
     public PostDto createPost(PostDto postDto) {

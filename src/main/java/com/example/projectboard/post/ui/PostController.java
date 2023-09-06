@@ -38,7 +38,7 @@ public class PostController {
 
     @GetMapping
     public ApiResponse<Page<PostResponse>> findAllPost(
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault Pageable pageable
     ) {
         return ApiResponse.success(postService.findAllPost(pageable).map(PostResponse::from));
     }

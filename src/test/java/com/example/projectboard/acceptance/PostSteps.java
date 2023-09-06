@@ -67,11 +67,18 @@ public class PostSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 게시글_조회_요청_문서화(String token, RequestSpecification requestSpecification) {
+    public static ExtractableResponse<Response> 게시글_조회_요청_문서화(RequestSpecification requestSpecification) {
         return requestSpecification
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header("Authorization", "Bearer " + token)
                 .when().get("/posts/{id}", 1L)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 게시글_조회_페이징_요청_문서화(int page, int size, RequestSpecification requestSpecification) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/posts?page={page}&size={size}&sort={sort}", page, size, "createdAt,desc")
                 .then().log().all()
                 .extract();
     }

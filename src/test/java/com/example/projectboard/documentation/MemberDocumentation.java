@@ -53,7 +53,7 @@ class MemberDocumentation extends Documentation {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원 아이디"),
                                 fieldWithPath("data.name").type(JsonFieldType.STRING).description("회원 이름"),
                                 fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
-                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
+                                fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
                         )
                 ));
 
@@ -83,7 +83,7 @@ class MemberDocumentation extends Documentation {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원 아이디"),
                                 fieldWithPath("data.name").type(JsonFieldType.STRING).description("회원 이름"),
                                 fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
-                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
+                                fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
                         )
                 ));
 
@@ -107,8 +107,8 @@ class MemberDocumentation extends Documentation {
                         ),
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
-                                fieldWithPath("data").type(JsonFieldType.NULL).description("응답 데이터"),
-                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
+                                fieldWithPath("data").type(JsonFieldType.NULL).optional().description("응답 데이터"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
                         )
                 ));
 
@@ -130,8 +130,8 @@ class MemberDocumentation extends Documentation {
                         ),
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
-                                fieldWithPath("data").type(JsonFieldType.NULL).description("응답 데이터"),
-                                fieldWithPath("error").type(JsonFieldType.NULL).description("에러 내용")
+                                fieldWithPath("data").type(JsonFieldType.NULL).optional().description("응답 데이터"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
                         )
                 ));
 
@@ -149,13 +149,13 @@ class MemberDocumentation extends Documentation {
         RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
                 .filter(document("member-create-error",
                         requestFields(
-                                fieldWithPath("name").optional().description("회원 이름"),
+                                fieldWithPath("name").description("회원 이름"),
                                 fieldWithPath("email").description("회원 이메일"),
                                 fieldWithPath("password").description("회원 비밀번호")
                         ),
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
-                                fieldWithPath("data").type(JsonFieldType.NULL).description("데이터"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).optional().description("데이터"),
                                 fieldWithPath("error").type(JsonFieldType.OBJECT).description("에러 내용"),
                                 fieldWithPath("error.code").type(JsonFieldType.STRING).description("에러 코드"),
                                 fieldWithPath("error.message").type(JsonFieldType.STRING).description("예외 메세지"),

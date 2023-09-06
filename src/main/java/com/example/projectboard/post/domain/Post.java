@@ -66,7 +66,7 @@ public class Post extends BaseEntity {
     }
 
     public void validationMember(Member member) {
-        if (member != member) {
+        if (this.member != member) {
             throw new PostException(ErrorType.MEMBER_PERMISSION_ERROR, "작성자가 아닙니다.");
         }
     }
