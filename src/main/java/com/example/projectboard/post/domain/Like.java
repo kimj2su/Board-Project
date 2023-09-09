@@ -36,6 +36,14 @@ public class Like extends BaseEntity {
         this.post = post;
     }
 
+    public boolean isSameMember(Member member) {
+        return this.member.equals(member);
+    }
+
+    public boolean isSamePost(Post post) {
+        return this.post.equals(post);
+    }
+
     public Long getId() {
         return id;
     }

@@ -36,6 +36,8 @@ public class Post extends BaseEntity {
     @Lob
     private String content;
 
+    // todo : Like 는 도메인 , 조회수는 컬럼으로 추가
+
     protected Post() {}
 
     public Post(Member member, String title, String content) {
