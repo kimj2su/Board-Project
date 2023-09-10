@@ -32,4 +32,8 @@ public class Likes {
     public int totalLikes() {
         return likes.size();
     }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
 }
