@@ -61,7 +61,7 @@ public class PostServiceTest extends AcceptanceTest {
         Long id = postdto.id();
 
         // when : 기능 수행
-        postService.modifyPost(id, new PostDto(null, memberDto, "title2", "content2"));
+        postService.modifyPost(id, new PostDto(null, memberDto, "title2", "content2", 0));
 
         // then : 결과 확인
         PostDto findPost = postService.findPost(id);
@@ -125,7 +125,7 @@ public class PostServiceTest extends AcceptanceTest {
     }
 
     private PostDto createPostDto(MemberDto memberDto) {
-        return new PostDto(null, memberDto, "title", "content");
+        return new PostDto(null, memberDto, "title", "content", 0);
     }
 
     private MemberDto createMemberDto() {

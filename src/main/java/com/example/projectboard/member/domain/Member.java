@@ -32,10 +32,19 @@ public class Member extends BaseEntity {
 
     protected Member() {}
 
-    public Member(String name, String email, String password) {
+    public Member(Long id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public static Member of(String name, String email, String password) {
+        return new Member(null, name, email, password);
+    }
+
+    public static Member of(Long id, String name, String email, String password) {
+        return new Member(id, name, email, password);
     }
 
     public Long getId() {
@@ -95,7 +104,7 @@ public class Member extends BaseEntity {
         }
 
         public Member build() {
-            return new Member(name, email, password);
+            return Member.of(name, email, password);
         }
     }
 }

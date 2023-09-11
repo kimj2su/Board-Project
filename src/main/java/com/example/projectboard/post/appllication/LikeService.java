@@ -1,5 +1,7 @@
 package com.example.projectboard.post.appllication;
 
+import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.member.domain.Member;
 import com.example.projectboard.post.domain.Post;
 import com.example.projectboard.post.domain.PostRepository;
 import com.example.projectboard.support.error.ErrorType;
@@ -17,13 +19,11 @@ public class LikeService {
         this.postRepository = postRepository;
     }
 
-    public void increase(Long postId) {
-        // postRepository.findById(postId)
-        //         .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."))
-        //         .increaseLikeCount();
-
+    public void increase(Long postId, MemberDto memberDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", postId)));
+        Member member = memberDto.toEntity();
 
+        post.increaseLike(member);
     }
 }

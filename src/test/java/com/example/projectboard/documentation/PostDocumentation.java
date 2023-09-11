@@ -224,7 +224,7 @@ class PostDocumentation extends Documentation {
     }
 
     private PostDto postDto() {
-        return new PostDto(1L, memberDto, "내용", "작성자");
+        return new PostDto(1L, memberDto, "내용", "작성자", 0);
     }
 
     private MemberDto memberDto() {

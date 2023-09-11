@@ -13,7 +13,7 @@ import java.util.List;
 public record MemberDto(Long id, String name, String email, String password, MemberRole memberRole) implements UserDetails {
 
     public Member toEntity() {
-        return new Member(name, email, password);
+        return Member.of(id, name, email, password);
     }
 
     public static MemberDto from(Member member) {

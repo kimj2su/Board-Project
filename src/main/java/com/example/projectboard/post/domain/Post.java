@@ -5,6 +5,7 @@ import com.example.projectboard.support.entity.BaseEntity;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.PostException;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +38,8 @@ public class Post extends BaseEntity {
     private String content;
 
     // todo : Like 는 도메인 , 조회수는 컬럼으로 추가
+    @Embedded
+    private Likes likes = new Likes();
 
     protected Post() {}
 
@@ -44,6 +47,21 @@ public class Post extends BaseEntity {
         this.member = member;
         this.title = title;
         this.content = content;
+    }
+
+    public void modifyPost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void validationMember(Member member) {
+        if (this.member != member) {
+            throw new PostException(ErrorType.MEMBER_PERMISSION_ERROR, "작성자가 아닙니다.");
+        }
+    }
+
+    public void increaseLike(Member member) {
+        likes.increase(member, this);
     }
 
     public Long getId() {
@@ -62,15 +80,8 @@ public class Post extends BaseEntity {
         return content;
     }
 
-    public void modifyPost(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    public void validationMember(Member member) {
-        if (this.member != member) {
-            throw new PostException(ErrorType.MEMBER_PERMISSION_ERROR, "작성자가 아닙니다.");
-        }
+    public Likes getLikes() {
+        return likes;
     }
 
     public static PostBuilder builder() {
