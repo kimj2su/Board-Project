@@ -18,6 +18,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 
+import java.util.Objects;
+
 @Entity
 @Where(clause = "deleted = 'N'")
 @DynamicInsert
@@ -64,6 +66,10 @@ public class Post extends BaseEntity {
         likes.increase(member, this);
     }
 
+    public void decreaseLike(Member member) {
+        likes.decrease(member, this);
+    }
+
     public Long getId() {
         return id;
     }
@@ -82,6 +88,19 @@ public class Post extends BaseEntity {
 
     public Likes getLikes() {
         return likes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(getId(), post.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     public static PostBuilder builder() {

@@ -11,6 +11,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 
+import java.util.Objects;
+
 @Entity
 @Where(clause = "deleted = 'N'")
 @DynamicInsert
@@ -47,6 +49,15 @@ public class Member extends BaseEntity {
         return new Member(id, name, email, password);
     }
 
+    public void encryptPassword(String password) {
+        this.password = password;
+    }
+
+    public void modify(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,13 +78,17 @@ public class Member extends BaseEntity {
         return memberRole;
     }
 
-    public void encryptPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
     }
 
-    public void modify(String name, String email) {
-        this.name = name;
-        this.email = email;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     public static MemberBuilder builder() {

@@ -53,6 +53,21 @@ public class LikeServiceTest extends AcceptanceTest {
         assertThat(post.likeCount()).isEqualTo(1);
     }
 
+    @DisplayName("좋아요 감소 테스트")
+    @Test
+    void decreaseLike() {
+        // given : 선행조건 기술
+        Long postId = postDto.id();
+        likeService.increase(postId, memberDto);
+
+        // when : 기능 수행
+        likeService.decrease(postId, memberDto);
+
+        // then : 결과 확인
+        PostDto post = postService.findPost(postId);
+        assertThat(post.likeCount()).isEqualTo(0);
+    }
+
     private PostDto createPostDto(MemberDto memberDto) {
         return new PostDto(null, memberDto, "title", "content", 0);
     }

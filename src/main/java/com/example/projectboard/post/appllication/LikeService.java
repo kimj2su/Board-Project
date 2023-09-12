@@ -26,4 +26,12 @@ public class LikeService {
 
         post.increaseLike(member);
     }
+
+    public void decrease(Long postId, MemberDto memberDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", postId)));
+        Member member = memberDto.toEntity();
+
+        post.decreaseLike(member);
+    }
 }
