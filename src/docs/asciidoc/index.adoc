@@ -37,3 +37,6 @@ include::member/member.adoc[]
 
 == 게시글
 include::post/post.adoc[]
+
+== 좋아요
+include::post/like.adoc[]

@@ -1,0 +1,7 @@
+=== 좋아요 증가
+operation::like-increase[snippets='http-request,request-headers,path-parameters']
+operation::like-increase[snippets='http-response,response-fields']
+
+=== 좋아요 감소
+operation::like-decrease[snippets='http-request,request-headers,path-parameters']
+operation::like-decrease[snippets='http-response,response-fields']

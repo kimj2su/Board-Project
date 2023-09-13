@@ -1,7 +1,6 @@
 package com.example.projectboard.documentation;
 
 import com.example.projectboard.acceptance.PostSteps;
-import com.example.projectboard.config.JwtTokenProperties;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
 import com.example.projectboard.member.domain.MemberRole;
