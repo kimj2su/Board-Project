@@ -57,6 +57,7 @@ public class PostAcceptanceTest extends AcceptanceTest {
         assertThat(response.jsonPath().getString("data.id")).isNotNull();
         assertThat(response.jsonPath().getString("data.title")).isEqualTo("제목");
         assertThat(response.jsonPath().getString("data.content")).isEqualTo("내용");
+        assertThat(response.jsonPath().getString("data.likeCount")).isEqualTo("0");
     }
 
     /**
@@ -108,6 +109,7 @@ public class PostAcceptanceTest extends AcceptanceTest {
         assertThat(response.jsonPath().getLong("data.id")).isEqualTo(1L);
         assertThat(response.jsonPath().getString("data.title")).isEqualTo("제목");
         assertThat(response.jsonPath().getString("data.content")).isEqualTo("내용");
+        assertThat(response.jsonPath().getString("data.likeCount")).isEqualTo("0");
     }
 
     /**
