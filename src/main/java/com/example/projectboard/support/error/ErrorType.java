@@ -13,6 +13,7 @@ public enum ErrorType {
     POST_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Post not found."),
     MEMBER_PERMISSION_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Member permission error."),
     REQUEST_FIELD_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Request field error."),
+    MEMBER_ALREADY_EXIST_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Member already exist.")
     ;
 
     private final HttpStatus status;

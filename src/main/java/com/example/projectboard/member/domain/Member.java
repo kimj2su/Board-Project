@@ -1,6 +1,7 @@
 package com.example.projectboard.member.domain;
 
 import com.example.projectboard.support.entity.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,6 +26,7 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    @Column(unique = true)
     private String email;
 
     private String password;

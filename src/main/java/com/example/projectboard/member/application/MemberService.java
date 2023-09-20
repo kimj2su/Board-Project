@@ -25,6 +25,9 @@ public class MemberService {
     }
 
     public MemberDto createMember(MemberDto memberDto) {
+        memberRepository.findByEmail(memberDto.email()).ifPresent(member -> {
+            throw new MemberException(ErrorType.MEMBER_ALREADY_EXIST_ERROR, memberDto.email());
+        });
         Member member = memberDto.toEntity();
         member.encryptPassword(passwordEncoder.encode(memberDto.password()));
         return MemberDto.from(memberRepository.save(member));
