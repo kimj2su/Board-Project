@@ -113,3 +113,45 @@
     server -->> client: reason code와 함께 실패 반환
     end
 ```
+
+7. 좋아요 추가
+
+```mermaid
+  sequenceDiagram
+    autonumber
+    client ->> server: 좋아요 추가 요청
+    alt 성공한 경우 
+    server ->> db : 좋아요 추가 요청
+    db -->> server : 저장 성공 반환
+    server -->> client: 성공 반환
+    else 로그인하지 않은 경우
+    server -->> client: reason code와 함께 실패 반환
+    else db 에러
+    server ->> db : 좋아요 추가 요청
+    db -->> server : 에러 반환
+    server -->> client: reason code와 함께 실패 반환
+    else 내부 에러
+    server -->> client: reason code와 함께 실패 반환
+    end
+```
+
+7. 좋아요 삭제
+
+```mermaid
+  sequenceDiagram
+    autonumber
+    client ->> server: 좋아요 삭제 요청
+    alt 성공한 경우 
+    server ->> db : 좋아요 삭제 요청
+    db -->> server : 삭제 성공 반환
+    server -->> client: 성공 반환
+    else 로그인하지 않은 경우
+    server -->> client: reason code와 함께 실패 반환
+    else db 에러
+    server ->> db : 좋아요 삭제 요청
+    db -->> server : 에러 반환
+    server -->> client: reason code와 함께 실패 반환
+    else 내부 에러
+    server -->> client: reason code와 함께 실패 반환
+    end
+```

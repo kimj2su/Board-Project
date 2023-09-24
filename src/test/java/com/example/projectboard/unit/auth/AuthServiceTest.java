@@ -1,6 +1,7 @@
 package com.example.projectboard.unit.auth;
 
 
+import com.example.projectboard.acceptance.AcceptanceTest;
 import com.example.projectboard.auth.application.AuthService;
 import com.example.projectboard.auth.application.dto.AuthDto;
 import com.example.projectboard.member.application.MemberService;
@@ -13,8 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Auth 서비스 테스트")
-@SpringBootTest
-class AuthServiceTest {
+class AuthServiceTest extends AcceptanceTest {
 
     @Autowired
     private AuthService authService;
