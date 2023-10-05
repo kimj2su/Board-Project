@@ -1,8 +1,10 @@
 package com.example.projectboard.utils;
 
 import com.google.common.base.CaseFormat;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Id;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Table;
 import jakarta.persistence.metamodel.EntityType;
@@ -10,7 +12,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +25,7 @@ public class DatabaseCleanup implements InitializingBean {
     private EntityManager entityManager;
 
     private List<String> tableNames;
+    private Map<String, String> tableColumnMap;
 
     @Override
     public void afterPropertiesSet() {
@@ -41,8 +47,50 @@ public class DatabaseCleanup implements InitializingBean {
                 .collect(Collectors.toList());
 
         tableNames.addAll(entityNames);
+        getTableColumnName();
     }
 
+    private void getTableColumnName() {
+        final Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+        tableColumnMap = new HashMap<>();
+
+        tableColumnMap = entities.stream()
+                .filter(e -> isEntity(e) && hasTableAnnotation(e))
+                .collect(Collectors.toMap(
+                        e -> {
+                            String tableName = e.getJavaType().getAnnotation(Table.class).name();
+                            return tableName.isBlank() ? CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getName()) : tableName;
+                        },
+                        e -> {
+                            Class<?> entityClass = e.getJavaType();
+                            return Arrays.stream(entityClass.getDeclaredFields())
+                                    .filter(field -> field.isAnnotationPresent(Id.class))
+                                    .map(field -> {
+                                        Column idColumn = field.getAnnotation(Column.class);
+                                        return idColumn != null ? idColumn.name() : field.getName();
+                                    })
+                                    .findFirst()
+                                    .orElseGet(() -> "");
+                        }
+                ));
+
+        tableColumnMap.putAll(entities.stream()
+                .filter(e -> isEntity(e) && !hasTableAnnotation(e))
+                .collect(Collectors.toMap(
+                        e -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getName()),
+                        e -> {
+                            Class<?> entityClass = e.getJavaType();
+                            return Arrays.stream(entityClass.getDeclaredFields())
+                                    .filter(field -> field.isAnnotationPresent(Id.class))
+                                    .map(field -> {
+                                        Column idColumn = field.getAnnotation(Column.class);
+                                        return idColumn != null ? idColumn.name() : field.getName();
+                                    })
+                                    .findFirst()
+                                    .orElseGet(() -> "");
+                        }
+                )));
+    }
 
     private boolean isEntity(final EntityType<?> e) {
         //지금 현재 자바타입에서 @Entity 어노테이션이 붙어있는지 확인합니다.
@@ -63,7 +111,7 @@ public class DatabaseCleanup implements InitializingBean {
         for (final String tableName : tableNames) {
             entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
             // @Id 시퀀스를 1로 업데이트해준다.
-            entityManager.createNativeQuery("ALTER TABLE " + tableName + " ALTER COLUMN ID RESTART WITH 1").executeUpdate();
+            entityManager.createNativeQuery("ALTER TABLE " + tableName + " ALTER COLUMN " + tableColumnMap.get(tableName) + " RESTART WITH 1").executeUpdate();
         }
 
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();

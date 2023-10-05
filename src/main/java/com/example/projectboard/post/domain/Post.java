@@ -4,7 +4,7 @@ import com.example.projectboard.member.domain.Member;
 import com.example.projectboard.support.entity.BaseEntity;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.PostException;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,6 +28,7 @@ public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
