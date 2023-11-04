@@ -26,7 +26,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 @DisplayName("좋아요 관련 문서화")
-public class LikeDocumentation extends Documentation{
+public class LikeDocumentation extends Documentation {
 
     @MockBean
     private LikeService likeService;

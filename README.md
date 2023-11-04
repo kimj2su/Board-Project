@@ -1,5 +1,13 @@
 # Board Project
 
+### React 
+- npm install react-router-dom@6
+- npm install bootstrap
+
+"""txt
+import 'bootstrap/dist/css/bootstrap.min.css';
+"""
+
 ## Flow Chart
 
 1. 회원가입
