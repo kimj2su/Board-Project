@@ -35,6 +35,9 @@
 == 회원
 include::member/member.adoc[]
 
+== 인증
+include::auth/auth.adoc[]
+
 == 게시글
 include::post/post.adoc[]
 

@@ -21,7 +21,7 @@ spring.config.activate.on-profile: local
 spring:
   jpa:
     hibernate:
-      ddl-auto: create # create update none
+      ddl-auto: update # create update none
     properties:
       hibernate:
         format_sql: true

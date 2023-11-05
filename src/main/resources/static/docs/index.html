@@ -457,12 +457,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_회원_생성_예외">회원 생성 예외</a></li>
 </ul>
 </li>
+<li><a href="#_인증">인증</a>
+<ul class="sectlevel2">
+<li><a href="#_로그인">로그인</a></li>
+</ul>
+</li>
 <li><a href="#_게시글">게시글</a>
 <ul class="sectlevel2">
 <li><a href="#_게시글_조회">게시글 조회</a></li>
 <li><a href="#_게시글_생성">게시글 생성</a></li>
 <li><a href="#_게시글_수정">게시글 수정</a></li>
 <li><a href="#_게시글_삭제">게시글 삭제</a></li>
+<li><a href="#_게시글_페이징_조회">게시글 페이징 조회</a></li>
+</ul>
+</li>
+<li><a href="#_좋아요">좋아요</a>
+<ul class="sectlevel2">
+<li><a href="#_좋아요_증가">좋아요 증가</a></li>
+<li><a href="#_좋아요_감소">좋아요 감소</a></li>
 </ul>
 </li>
 </ul>
@@ -520,7 +532,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/1 HTTP/1.1
-Host: localhost:58878</code></pre>
+Host: localhost:60086</code></pre>
 </div>
 </div>
 </div>
@@ -562,7 +574,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 136
@@ -632,7 +644,7 @@ Content-Length: 136
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -648,7 +660,7 @@ Content-Length: 136
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /members HTTP/1.1
 Content-Type: application/json
-Host: localhost:58878
+Host: localhost:60086
 Content-Length: 82
 
 {
@@ -714,7 +726,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 136
@@ -784,7 +796,7 @@ Content-Length: 136
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -800,7 +812,7 @@ Content-Length: 136
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /members/1 HTTP/1.1
 Content-Type: application/json
-Host: localhost:58878
+Host: localhost:60086
 Content-Length: 59
 
 {
@@ -859,7 +871,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 61
@@ -901,13 +913,13 @@ Content-Length: 61
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -923,7 +935,7 @@ Content-Length: 61
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /members/1 HTTP/1.1
 Content-Type: application/json
-Host: localhost:58878</code></pre>
+Host: localhost:60086</code></pre>
 </div>
 </div>
 </div>
@@ -965,7 +977,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 61
@@ -1007,13 +1019,13 @@ Content-Length: 61
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -1029,7 +1041,7 @@ Content-Length: 61
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /members HTTP/1.1
 Content-Type: application/json
-Host: localhost:58878
+Host: localhost:60086
 Content-Length: 52
 
 {
@@ -1061,7 +1073,7 @@ Content-Length: 52
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">회원 이름</p></td>
 </tr>
 <tr>
@@ -1095,7 +1107,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Connection: close
 Content-Length: 320
 
@@ -1144,7 +1156,7 @@ Content-Length: 320
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">데이터</p></td>
 </tr>
 <tr>
@@ -1191,6 +1203,142 @@ Content-Length: 320
 </div>
 </div>
 <div class="sect1">
+<h2 id="_인증"><a class="link" href="#_인증">인증</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_로그인"><a class="link" href="#_로그인">로그인</a></h3>
+<div class="sect3">
+<h4 id="_로그인_http_request"><a class="link" href="#_로그인_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/login HTTP/1.1
+Content-Type: application/json
+Host: localhost:60075
+Content-Length: 58
+
+{
+  "email" : "kimjisu@email.com",
+  "password" : "1234"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_로그인_request_fields"><a class="link" href="#_로그인_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 비밀번호</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_로그인_http_response"><a class="link" href="#_로그인_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 16 Nov 2023 06:34:09 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 84
+
+{
+  "result" : "SUCCESS",
+  "data" : {
+    "token" : "token"
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_로그인_response_fields"><a class="link" href="#_로그인_response_fields">Response fields</a></h4>
+<div class="sect3">
+<h4 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_게시글"><a class="link" href="#_게시글">게시글</a></h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -1200,32 +1348,16 @@ Content-Length: 320
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /posts/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNjk2NDIxMDc1LCJleHAiOjE2OTkwMTMwNzV9.-LggfEN7yn4P3kOANQ_pObvVBDXK5Ob-5Tbs64P5NrI
 Content-Type: application/json
-Host: localhost:58884</code></pre>
+Host: localhost:60096</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_게시글_조회_request_headers"><a class="link" href="#_게시글_조회_request_headers">Request headers</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 인증 토큰</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Snippet request-headers not found for operation::post-find</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_게시글_조회_path_parameters"><a class="link" href="#_게시글_조회_path_parameters">Path parameters</a></h4>
@@ -1265,10 +1397,10 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 240
+Content-Length: 261
 
 {
   "result" : "SUCCESS",
@@ -1280,7 +1412,8 @@ Content-Length: 240
       "email" : "kimjisu@email.com"
     },
     "title" : "내용",
-    "content" : "작성자"
+    "content" : "작성자",
+    "likeCount" : 0
   },
   "error" : null
 }</code></pre>
@@ -1338,6 +1471,12 @@ Content-Length: 240
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.likeCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요갯수</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.memberResponse.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1358,7 +1497,7 @@ Content-Length: 240
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -1373,9 +1512,9 @@ Content-Length: 240
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /posts HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNjk2NDIxMDc1LCJleHAiOjE2OTkwMTMwNzV9.-LggfEN7yn4P3kOANQ_pObvVBDXK5Ob-5Tbs64P5NrI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNzAwMTE2NDUxLCJleHAiOjE3MDI3MDg0NTF9.KNoHL_gEEMWum2L7UCJtXAf-T1X5rY8rxPNqzm2fc5Y
 Content-Type: application/json
-Host: localhost:58884
+Host: localhost:60096
 Content-Length: 61
 
 {
@@ -1455,10 +1594,10 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 240
+Content-Length: 261
 
 {
   "result" : "SUCCESS",
@@ -1470,7 +1609,8 @@ Content-Length: 240
       "email" : "kimjisu@email.com"
     },
     "title" : "내용",
-    "content" : "작성자"
+    "content" : "작성자",
+    "likeCount" : 0
   },
   "error" : null
 }</code></pre>
@@ -1528,6 +1668,12 @@ Content-Length: 240
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.likeCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요갯수</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.memberResponse.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1548,7 +1694,7 @@ Content-Length: 240
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -1563,9 +1709,9 @@ Content-Length: 240
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /posts/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNjk2NDIxMDc1LCJleHAiOjE2OTkwMTMwNzV9.-LggfEN7yn4P3kOANQ_pObvVBDXK5Ob-5Tbs64P5NrI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNzAwMTE2NDUxLCJleHAiOjE3MDI3MDg0NTF9.KNoHL_gEEMWum2L7UCJtXAf-T1X5rY8rxPNqzm2fc5Y
 Content-Type: application/json
-Host: localhost:58884
+Host: localhost:60096
 Content-Length: 61
 
 {
@@ -1645,7 +1791,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 61
@@ -1687,13 +1833,13 @@ Content-Length: 61
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -1708,9 +1854,9 @@ Content-Length: 61
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /posts/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNjk2NDIxMDc1LCJleHAiOjE2OTkwMTMwNzV9.-LggfEN7yn4P3kOANQ_pObvVBDXK5Ob-5Tbs64P5NrI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNzAwMTE2NDUxLCJleHAiOjE3MDI3MDg0NTF9.KNoHL_gEEMWum2L7UCJtXAf-T1X5rY8rxPNqzm2fc5Y
 Content-Type: application/json
-Host: localhost:58884</code></pre>
+Host: localhost:60096</code></pre>
 </div>
 </div>
 </div>
@@ -1773,7 +1919,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 Oct 2023 12:04:34 GMT
+Date: Thu, 16 Nov 2023 06:34:10 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 61
@@ -1815,13 +1961,377 @@ Content-Length: 61
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_게시글_페이징_조회"><a class="link" href="#_게시글_페이징_조회">게시글 페이징 조회</a></h3>
+<div class="sect3">
+<h4 id="_게시글_페이징_조회_http_request"><a class="link" href="#_게시글_페이징_조회_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /posts?page=0&amp;size=10&amp;sort=createdAt%2Cdesc HTTP/1.1
+Content-Type: application/json
+Host: localhost:60096</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_게시글_페이징_조회_query_parameters"><a class="link" href="#_게시글_페이징_조회_query_parameters">Query parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방식</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_게시글_페이징_조회_http_response"><a class="link" href="#_게시글_페이징_조회_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 16 Nov 2023 06:34:10 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 597
+
+{
+  "result" : "SUCCESS",
+  "data" : {
+    "content" : [ {
+      "id" : 1,
+      "memberResponse" : {
+        "id" : 1,
+        "name" : "김지수",
+        "email" : "kimjisu@email.com"
+      },
+      "title" : "내용",
+      "content" : "작성자",
+      "likeCount" : 0
+    } ],
+    "pageable" : "INSTANCE",
+    "last" : true,
+    "totalPages" : 1,
+    "totalElements" : 1,
+    "first" : true,
+    "size" : 1,
+    "number" : 0,
+    "sort" : {
+      "empty" : true,
+      "sorted" : false,
+      "unsorted" : true
+    },
+    "numberOfElements" : 1,
+    "empty" : false
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_게시글_페이징_조회_response_fields"><a class="link" href="#_게시글_페이징_조회_response_fields">Response fields</a></h4>
+<div class="paragraph">
+<p>Snippet response-fields not found for operation::post-find-all</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_좋아요"><a class="link" href="#_좋아요">좋아요</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_좋아요_증가"><a class="link" href="#_좋아요_증가">좋아요 증가</a></h3>
+<div class="sect3">
+<h4 id="_좋아요_증가_http_request"><a class="link" href="#_좋아요_증가_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /likes/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNzAwMTE2NDUwLCJleHAiOjE3MDI3MDg0NTB9.5WFq1iFMLDMmrcwFhmHULwOdFNkRR_SucwvVZynEUVM
+Content-Type: application/json
+Host: localhost:60082</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_증가_request_headers"><a class="link" href="#_좋아요_증가_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 인증 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_증가_path_parameters"><a class="link" href="#_좋아요_증가_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /likes/{postId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_증가_http_response"><a class="link" href="#_좋아요_증가_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 16 Nov 2023 06:34:09 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 61
+
+{
+  "result" : "SUCCESS",
+  "data" : null,
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_증가_response_fields"><a class="link" href="#_좋아요_증가_response_fields">Response fields</a></h4>
+<div class="sect3">
+<h4 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_좋아요_감소"><a class="link" href="#_좋아요_감소">좋아요 감소</a></h3>
+<div class="sect3">
+<h4 id="_좋아요_감소_http_request"><a class="link" href="#_좋아요_감소_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /likes/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtpbWppc3VAZW1haWwuY29tIiwiaWF0IjoxNzAwMTE2NDUwLCJleHAiOjE3MDI3MDg0NTB9.5WFq1iFMLDMmrcwFhmHULwOdFNkRR_SucwvVZynEUVM
+Content-Type: application/json
+Host: localhost:60082</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_감소_request_headers"><a class="link" href="#_좋아요_감소_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 인증 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_감소_path_parameters"><a class="link" href="#_좋아요_감소_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /likes/{postId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_감소_http_response"><a class="link" href="#_좋아요_감소_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 16 Nov 2023 06:34:09 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 61
+
+{
+  "result" : "SUCCESS",
+  "data" : null,
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_좋아요_감소_response_fields"><a class="link" href="#_좋아요_감소_response_fields">Response fields</a></h4>
+<div class="sect3">
+<h4 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러 내용</p></td>
 </tr>
 </tbody>
@@ -1835,7 +2345,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-10-04 19:56:23 +0900
+Last updated 2023-11-16 15:29:29 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
