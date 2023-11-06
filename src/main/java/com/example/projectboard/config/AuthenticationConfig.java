@@ -4,17 +4,20 @@ import com.example.projectboard.config.filter.ExceptionHandlerFilter;
 import com.example.projectboard.config.filter.JwtTokenFilter;
 import com.example.projectboard.member.application.MemberService;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,15 +36,32 @@ public class AuthenticationConfig {
     }
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().
+                requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+                .requestMatchers(new AntPathRequestMatcher( "/favicon.ico"))
+                .requestMatchers(new AntPathRequestMatcher( "/docs/**"))
+                .requestMatchers(new AntPathRequestMatcher( "/auth/login"))
+                .requestMatchers(new AntPathRequestMatcher( "/members/**"))
+                .requestMatchers(new AntPathRequestMatcher( "/error"))
+                .requestMatchers(new AntPathRequestMatcher( "/health"))
+                .requestMatchers(new AntPathRequestMatcher( "/static/**"))
+                .requestMatchers(new AntPathRequestMatcher( "/index.html"))
+                .requestMatchers(new AntPathRequestMatcher( "/"))
+                ;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/members/**", "/", "/auth/login", "/docs/**", "/error", "/health").permitAll()
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
                         .requestMatchers("/posts/**").hasAuthority("USER")
                         .anyRequest().authenticated()
         )
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .cors(x -> x.configurationSource(corsConfigurationSource()))
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProperties.getSecretKey(), memberService), UsernamePasswordAuthenticationFilter.class)

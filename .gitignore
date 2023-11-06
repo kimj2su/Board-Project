@@ -33,6 +33,16 @@ out/
 /nbdist/
 /.nb-gradle/
 
+### react ###
+**/front/node_modules
+**/front/static/**
+
+*.sublime*
+
+psd
+thumb
+sketch
+
 ### VS Code ###
 .vscode/
 

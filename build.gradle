@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.3'
     id 'io.spring.dependency-management' version '1.1.3'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id "com.github.node-gradle.node" version "3.3.0"
 }
 
 group = 'com.example'
@@ -98,3 +99,32 @@ task copyDocument(type: Copy) {
     from file("build/docs/asciidoc")
     into file("src/main/resources/static/docs")
 }
+
+node {
+    // 프론트엔드 프로젝트 경로
+    nodeProjectDir = file("$projectDir/front")
+    version = '18.3.0'
+    download = true
+}
+
+task npmBuild(type: NpmTask) {
+    dependsOn npmInstall
+    args = ['run', 'build']
+}
+
+task copyFrontEnd(type: Copy) {
+    dependsOn npmBuild
+    from 'front/build'
+    into 'build/resources/main/static/.'
+}
+
+task cleanFrontEnd(type: Delete) {
+    delete "$projectDir/front/build", "$projectDir/front/node_modules"
+}
+
+npmBuild.dependsOn npmInstall
+copyFrontEnd.dependsOn npmBuild
+compileJava.dependsOn copyFrontEnd
+
+clean.dependsOn cleanFrontEnd
+
