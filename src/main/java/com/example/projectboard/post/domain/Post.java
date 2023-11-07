@@ -7,6 +7,7 @@ import com.example.projectboard.support.error.PostException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Objects;
 
@@ -24,6 +26,7 @@ import java.util.Objects;
 @Where(clause = "deleted = 'N'")
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class Post extends BaseEntity {
 
     @Id
@@ -40,7 +43,6 @@ public class Post extends BaseEntity {
     @Lob
     private String content;
 
-    // todo : Like 는 도메인 , 조회수는 컬럼으로 추가
     @Embedded
     private Likes likes = new Likes();
 

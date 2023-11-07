@@ -4,6 +4,7 @@ import com.example.projectboard.member.domain.Member;
 import com.example.projectboard.support.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,11 +14,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "likes")
+@EntityListeners(AuditingEntityListener.class)
 public class Like extends BaseEntity {
 
     @Id

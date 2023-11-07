@@ -44,22 +44,26 @@ public class PostService {
     }
 
     public void modifyPost(Long id, PostDto postDto) {
-        Member member = memberRepository.findByEmail(postDto.memberDto().email())
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원이 존재하지 않습니다.", postDto.memberDto().email())));
-
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", id)));
-        post.validationMember(member);
+        Post post = validation(id, postDto.memberDto());
         post.modifyPost(postDto.title(), postDto.content());
     }
 
     public void deletePost(Long id, MemberDto memberDto) {
+        Post post = validation(id, memberDto);
+        post.deleted();
+    }
+
+    public void validationPost(Long id, MemberDto memberDto) {
+        validation(id, memberDto);
+    }
+
+    private Post validation(Long id, MemberDto memberDto) {
         Member member = memberRepository.findByEmail(memberDto.email())
                 .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원이 존재하지 않습니다.", memberDto.email())));
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", id)));
         post.validationMember(member);
-        post.deleted();
+        return post;
     }
 }

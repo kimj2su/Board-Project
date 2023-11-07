@@ -3,16 +3,20 @@ package com.example.projectboard.support.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class BaseEntity {
-    @CreationTimestamp @Column private LocalDateTime createdAt;
+    @CreatedDate
+    @Column
+    private LocalDateTime createdAt;
 
-    @UpdateTimestamp @Column private LocalDateTime updatedAt;
+    @LastModifiedDate
+    @Column
+    private LocalDateTime updatedAt;
     @ColumnDefault("'N'") private String deleted;
 
     public LocalDateTime getCreatedAt() {

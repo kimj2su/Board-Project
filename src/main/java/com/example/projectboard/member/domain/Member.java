@@ -3,6 +3,7 @@ package com.example.projectboard.member.domain;
 import com.example.projectboard.support.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Objects;
 
@@ -18,6 +20,7 @@ import java.util.Objects;
 @Where(clause = "deleted = 'N'")
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class Member extends BaseEntity {
 
     @Id
