@@ -110,6 +110,7 @@ public class PostAcceptanceTest extends AcceptanceTest {
         assertThat(response.jsonPath().getString("data.title")).isEqualTo("제목");
         assertThat(response.jsonPath().getString("data.content")).isEqualTo("내용");
         assertThat(response.jsonPath().getString("data.likeCount")).isEqualTo("0");
+        assertThat(response.jsonPath().getString("data.paginationBarNumbers")).isEqualTo(null);
     }
 
     /**

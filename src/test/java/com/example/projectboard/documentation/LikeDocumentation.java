@@ -97,6 +97,33 @@ public class LikeDocumentation extends Documentation {
         LikeSteps.좋아요_감소_요청_문서화 (token, requestSpecification);
     }
 
+    @DisplayName("좋아요 증가 문서화")
+    @Test
+    void toggleLike() {
+        // given : 선행조건 기술
+        willDoNothing().given(likeService).increase(any(), any());
+
+        // when : 기능 수행
+        RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
+                .filter(document("like-toggleLike",
+                        requestHeaders(
+                                headerWithName("authorization").description("JWT 인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("postId").description("게시글 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
+                                fieldWithPath("data").type(JsonFieldType.OBJECT).optional().description("응답 데이터"),
+                                fieldWithPath("data.isLike").type(JsonFieldType.BOOLEAN).description("좋아요 상태"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
+                        )
+                ));
+
+        // then : 결과 확인
+        LikeSteps.좋아요_상태_확인_문서화(token, requestSpecification);
+    }
+
     private MemberDto memberDto() {
         return new MemberDto(1L, name, email, password, MemberRole.USER);
     }

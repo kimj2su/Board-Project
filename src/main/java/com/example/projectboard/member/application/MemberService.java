@@ -26,7 +26,7 @@ public class MemberService {
 
     public MemberDto createMember(MemberDto memberDto) {
         memberRepository.findByEmail(memberDto.email()).ifPresent(member -> {
-            throw new MemberException(ErrorType.MEMBER_ALREADY_EXIST_ERROR, memberDto.email());
+            throw new MemberException(ErrorType.MEMBER_ALREADY_EXIST_ERROR, ErrorType.MEMBER_ALREADY_EXIST_ERROR.getMessage());
         });
         Member member = memberDto.toEntity();
         member.encryptPassword(passwordEncoder.encode(memberDto.password()));
@@ -41,25 +41,25 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberDto findMember(Long id) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, id));
+                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, ErrorType.MEMBER_NOT_FOUND_ERROR.getMessage()));
         return MemberDto.from(member);
     }
 
     public void modifyMember(Long id, MemberDto memberDto) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, id));
+                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, ErrorType.MEMBER_NOT_FOUND_ERROR.getMessage()));
         member.modify(memberDto.name(), memberDto.email());
     }
 
     public void deleteMember(Long id) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, id));
+                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, ErrorType.MEMBER_NOT_FOUND_ERROR.getMessage()));
         member.deleted();
     }
 
     public MemberDto loadMemberByEmail(String email) {
         return  memberRepository.findByEmail(email).map(MemberDto::from).orElseThrow(() ->
-                new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s no founded", email)));
+                new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s not founded", email)));
     }
 
 }

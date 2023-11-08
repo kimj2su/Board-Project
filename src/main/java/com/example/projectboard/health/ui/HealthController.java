@@ -1,7 +1,7 @@
 package com.example.projectboard.health.ui;
 
+import com.example.projectboard.support.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +19,8 @@ public class HealthController {
     }
 
     @GetMapping
-    public String health() {
+    public ApiResponse<Void> health() {
         log.info("server port: {}, profile: {}", env.getProperty("local.server.port"), env.getProperty("spring.profiles.active"));
-        return "ok";
+        return ApiResponse.success();
     }
 }

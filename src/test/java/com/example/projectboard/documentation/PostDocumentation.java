@@ -8,22 +8,26 @@ import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.post.appllication.dto.v1.request.CreatePostRequestDto;
 import com.example.projectboard.post.appllication.dto.v1.request.ModifyPostRequestDto;
+import com.example.projectboard.post.ui.PaginationService;
 import com.example.projectboard.support.jwt.JwtTokenUtils;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -41,6 +45,8 @@ class PostDocumentation extends Documentation {
     private PostService postService;
     @MockBean
     private MemberService memberService;
+    @MockBean
+    private PaginationService paginationService;
 
     private final String name = "김지수";
     private final String email = "kimjisu@email.com";
@@ -132,6 +138,7 @@ class PostDocumentation extends Documentation {
         int size = 10;
         Page<PostDto> posts = new PageImpl<>(Collections.singletonList(postDto));
         given(postService.findAllPost(any())).willReturn(posts);
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of());
 
         // when : 기능 수행
         RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
@@ -140,6 +147,21 @@ class PostDocumentation extends Documentation {
                                 parameterWithName("page").description("페이지 번호"),
                                 parameterWithName("size").description("페이지 크기"),
                                 parameterWithName("sort").description("정렬 방식")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").description("결과"),
+                                fieldWithPath("data").description("응답 데이터"),
+                                fieldWithPath("data.posts[].id").description("게시글 아이디"),
+                                fieldWithPath("data.posts[].title").description("제목"),
+                                fieldWithPath("data.posts[].content").description("내용"),
+                                fieldWithPath("data.posts[].likeCount").description("좋아요 수"),
+                                fieldWithPath("data.currentPageNumber").description("현재 페이지"),
+                                fieldWithPath("data.totalPages").description(" 페이지"),
+                                fieldWithPath("data.paginationBarNumbers").description("페이징 바"),
+                                fieldWithPath("data.posts[].memberResponse.id").description("작성자 아이디"),
+                                fieldWithPath("data.posts[].memberResponse.name").description("작성자 이름"),
+                                fieldWithPath("data.posts[].memberResponse.email").description("작성자 이메일"),
+                                fieldWithPath("error").optional().description("에러 내용")
                         )
                         // ,responseFields(
                         //         fieldWithPath("result").description("결과"),
@@ -175,7 +197,7 @@ class PostDocumentation extends Documentation {
     void modifyPost() {
         // given : 선행조건 기술
         ModifyPostRequestDto request = PostSteps.modifyRequest(title, content);
-        BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
+        willDoNothing().given(postService).modifyPost(any(), any());
 
         // when : 기능 수행
         RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
@@ -202,7 +224,7 @@ class PostDocumentation extends Documentation {
     @Test
     void deltePost() {
         // given : 선행조건 기술
-        BDDMockito.willDoNothing().given(postService).modifyPost(any(), any());
+        willDoNothing().given(postService).modifyPost(any(), any());
 
         // when : 기능 수행
         RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
@@ -222,6 +244,33 @@ class PostDocumentation extends Documentation {
 
         // then : 결과 확인
         PostSteps.게시글_삭제_요청_문서화(token, requestSpecification);
+    }
+
+    @DisplayName("게시글 본인 확인 문서화")
+    @Test
+    void validationPost() {
+        // given : 선행조건 기술
+        CreatePostRequestDto request = PostSteps.request(title, content);
+        willDoNothing().given(postService).validationPost(anyLong(), any());
+
+        // when : 기능 수행
+        RequestSpecification requestSpecification = RestAssured.given(spec).log().all()
+                .filter(document("post-validation",
+                        requestHeaders(
+                                headerWithName("authorization").description("JWT 인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("게시글 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).optional().description("응답 데이터"),
+                                fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
+                        )
+                ));
+
+        // then : 결과 확인
+        PostSteps.게시글_본인_확인_문서화(token, requestSpecification);
     }
 
     private PostDto postDto() {

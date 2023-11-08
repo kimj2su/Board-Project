@@ -124,6 +124,25 @@ public class PostServiceTest extends AcceptanceTest {
                 .hasMessageContaining("게시글이 존재하지 않습니다.");
     }
 
+    @DisplayName("Post 본인 확인 테스트")
+    @Test
+    void validationPost() {
+        // given : 선행조건 기술
+        PostDto request = createPostDto(memberDto);
+        PostDto postdto = postService.createPost(request);
+        Long id = postdto.id();
+
+        // when : 기능 수행
+        postService.validationPost(id, memberDto);
+
+        // then : 결과 확인
+        PostDto findPost = postService.findPost(id);
+        assertThat(findPost.id()).isEqualTo(1L);
+        assertThat(findPost.title()).isEqualTo("title");
+        assertThat(findPost.content()).isEqualTo("content");
+        assertThat(findPost.memberDto().id()).isEqualTo(1L);
+    }
+
     private PostDto createPostDto(MemberDto memberDto) {
         return new PostDto(null, memberDto, "title", "content", 0);
     }

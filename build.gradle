@@ -95,6 +95,7 @@ bootJar {
 
 // 배포와 상관없이 로컬에서만 확인하기 위한 테스트
 task copyDocument(type: Copy) {
+    delete "src/main/resources/static/docs/"
     dependsOn asciidoctor
 
     from file("build/docs/asciidoc")

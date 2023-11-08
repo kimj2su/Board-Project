@@ -43,3 +43,6 @@ include::post/post.adoc[]
 
 == 좋아요
 include::post/like.adoc[]
+
+== 헬스 체크
+include::health/health.adoc[]

@@ -101,4 +101,13 @@ public class PostSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 게시글_본인_확인_문서화(String token, RequestSpecification requestSpecification) {
+        return requestSpecification
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer " + token)
+                .when().post("/posts/{id}/validation", 1L)
+                .then().log().all()
+                .extract();
+    }
 }
