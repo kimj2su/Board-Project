@@ -15,6 +15,14 @@ logging:
     # 하이버네이트 버전업으로 인한 바인딩 출력 옵션 변경
     org.hibernate.orm.jdbc.bind: trace
 
+management:
+  endpoints:
+    web:
+      base-path: /management
+      path-mapping:
+        health: health_check
+        exposure:
+            include: "*"
 ---
 spring.config.activate.on-profile: local
 

@@ -26,7 +26,9 @@ public class HealthDocumentation extends Documentation {
                 .filter(document("health-check",
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("결과"),
-                                fieldWithPath("data").type(JsonFieldType.NULL).optional().description("응답 데이터"),
+                                fieldWithPath("data").type(JsonFieldType.OBJECT).optional().description("응답 데이터"),
+                                fieldWithPath("data.serverPort").type(JsonFieldType.STRING).optional().description("서버 포트"),
+                                fieldWithPath("data.profile").type(JsonFieldType.STRING).optional().description("서버 프로파일"),
                                 fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
                         )
                 ));

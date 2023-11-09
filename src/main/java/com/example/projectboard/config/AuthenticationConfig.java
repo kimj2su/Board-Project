@@ -48,6 +48,7 @@ public class AuthenticationConfig {
                 .requestMatchers(new AntPathRequestMatcher( "/static/**"))
                 .requestMatchers(new AntPathRequestMatcher( "/index.html"))
                 .requestMatchers(new AntPathRequestMatcher( "/"))
+                .requestMatchers(new AntPathRequestMatcher( "/management/**"))
                 ;
     }
 

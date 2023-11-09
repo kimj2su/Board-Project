@@ -19,8 +19,8 @@ public class HealthController {
     }
 
     @GetMapping
-    public ApiResponse<Void> health() {
+    public ApiResponse<HealthResponse> health() {
         log.info("server port: {}, profile: {}", env.getProperty("local.server.port"), env.getProperty("spring.profiles.active"));
-        return ApiResponse.success();
+        return ApiResponse.success(new HealthResponse(env.getProperty("local.server.port"), env.getProperty("spring.profiles.active")));
     }
 }
