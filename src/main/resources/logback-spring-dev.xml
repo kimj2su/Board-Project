@@ -4,7 +4,7 @@
     <appender name="DEFAULT" class="ch.qos.logback.core.rolling.RollingFileAppender">
 <!--        <file>${LOG_DIR}/request1.log</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/archive/default.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/default.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>  <!-- 로그파일 최대 크기 -->
             <maxHistory>30</maxHistory> <!-- 로그파일 최대 보관주기 (단위 : 일) -->
         </rollingPolicy>
@@ -25,7 +25,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/archive/error.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/error.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>  <!-- 로그파일 최대 크기 -->
             <maxHistory>30</maxHistory> <!-- 로그파일 최대 보관주기 (단위 : 일) -->
         </rollingPolicy>
@@ -36,6 +36,10 @@
             <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>
+
+    <logger name="com.example.projectboard.support.error" level="ERROR" additivity="false">
+        <appender-ref ref="ERROR" />
+    </logger>
 
     <logger name="com.example.projectboard" level="INFO" additivitty="false">
         <appender-ref ref="DEFAULT" />
