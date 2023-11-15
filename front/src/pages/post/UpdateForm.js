@@ -19,7 +19,7 @@ const UpdateForm = () => {
         .then(res => {
             setPost(res.data);
         });
-    }, [post])
+    }, [])
 
     const changeValue = (e) => {
         setPost({

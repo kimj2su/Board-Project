@@ -24,7 +24,7 @@ const JoinForm = () => {
         fetchApi("/members", "POST", user)
         .then(res => {
             if (res.result === "SUCCESS") {
-                navigate("/loginForm")
+                navigate("/login")
             } else {
                 alert(res.error.message)
             }

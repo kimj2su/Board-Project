@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import {fetchApi} from "../../components/FetchApi";
@@ -26,7 +26,7 @@ const Detail = (props) => {
         .then(res => {
             setPost(res.data);
         });
-    }, [post])
+    }, [])
 
     const updatePost = () => {
         dispatch(verifiedUser(id))
