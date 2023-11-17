@@ -59,7 +59,7 @@ class PostDocumentation extends Documentation {
     @BeforeEach
     void createToken() {
         token = JwtTokenUtils.generateToken(email, jwtTokenProperties.getSecretKey(), jwtTokenProperties.getTokenExpiredTimeMs());
-        given(memberService.loadMemberByEmail(any())).willReturn(memberDto);
+        given(memberService.loadUserByUsername(any())).willReturn(memberDto);
     }
 
     @DisplayName("게시글 생성 문서화")

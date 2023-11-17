@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -45,7 +44,7 @@ public class MemberServiceTest extends AcceptanceTest {
         // when : 기능 수행 && then : 결과 확인
         assertThatThrownBy(() -> memberService.createMember(savedMember))
                 .isInstanceOf(MemberException.class)
-                .hasMessage(ErrorType.MEMBER_ALREADY_EXIST_ERROR.getMessage());
+                .hasMessage(savedMember.email());
     }
 
     @DisplayName("Member 리스트 조회 테스트")
@@ -108,7 +107,7 @@ public class MemberServiceTest extends AcceptanceTest {
         // then : 결과 확인
         assertThatThrownBy(() -> memberService.findMember(savedMember.id()))
                 .isInstanceOf(MemberException.class)
-                .hasMessage(ErrorType.MEMBER_NOT_FOUND_ERROR.getMessage());
+                .hasMessage("회원을 찾을 수 없습니다.");
     }
 
     @DisplayName("Member 이메일 조회 테스트 - 성공")
@@ -119,7 +118,7 @@ public class MemberServiceTest extends AcceptanceTest {
         MemberDto savedMember = memberService.createMember(createMemberDto);
 
         // when : 기능 수행
-        MemberDto loadMemberByEmail = memberService.loadMemberByEmail(savedMember.email());
+        MemberDto loadMemberByEmail = memberService.loadUserByUsername(savedMember.email());
 
         // then : 결과 확인
         assertThat(loadMemberByEmail.id()).isEqualTo(savedMember.id());
@@ -133,7 +132,7 @@ public class MemberServiceTest extends AcceptanceTest {
         // given : 선행조건 기술
 
         // when : 기능 수행 && then : 결과 확인
-        assertThatThrownBy(() -> memberService.loadMemberByEmail("notExistEmail"))
+        assertThatThrownBy(() -> memberService.loadUserByUsername("notExistEmail"))
                 .isInstanceOf(MemberException.class)
                 .hasMessage("notExistEmail not founded");
     }

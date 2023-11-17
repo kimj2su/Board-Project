@@ -52,7 +52,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
             String email = JwtTokenUtils.getEmail(token, key);
-            MemberDto memberDto = memberService.loadMemberByEmail(email);
+            MemberDto memberDto = memberService.loadUserByUsername(email);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     memberDto, null, memberDto.getAuthorities());

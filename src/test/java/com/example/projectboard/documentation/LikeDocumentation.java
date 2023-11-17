@@ -42,7 +42,7 @@ public class LikeDocumentation extends Documentation {
     @BeforeEach
     void createToken() {
         token = JwtTokenUtils.generateToken(email, jwtTokenProperties.getSecretKey(), jwtTokenProperties.getTokenExpiredTimeMs());
-        given(memberService.loadMemberByEmail(any())).willReturn(memberDto);
+        given(memberService.loadUserByUsername(any())).willReturn(memberDto);
     }
 
     @DisplayName("좋아요 증가 문서화")
