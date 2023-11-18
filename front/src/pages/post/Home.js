@@ -12,14 +12,12 @@ const Home = () => {
     const [paginationBar, setPaginationBar] = useState([]);
 
     const fetchPosts = (currentPage) => {
-        console.log("currentPage:", currentPage)
         fetchApi(`/posts?page=${currentPage}`)
         .then(res => {
             setPosts(res.data.posts);
             setCurrentPage(res.data.currentPageNumber);
             setTotalPages(res.data.totalPages);
             setPaginationBar(res.data.paginationBarNumbers)
-            console.log("res: ", res)
         });
     }
     // 함수 실행시 최초 한번 실행

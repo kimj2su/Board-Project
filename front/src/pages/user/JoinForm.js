@@ -26,7 +26,7 @@ const JoinForm = () => {
             if (res.result === "SUCCESS") {
                 navigate("/login")
             } else {
-                alert(res.error.message)
+                alert(res.error.message);
             }
         });
     };

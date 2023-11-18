@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import {fetchApi} from "../../components/FetchApi";
@@ -19,7 +19,7 @@ const Detail = (props) => {
     });
 
     useEffect(() => {
-        fetch("http://localhost:8080/posts/" + id, {
+        fetch("/posts/" + id, {
             method: "GET",
         })
         .then(res => res.json())
@@ -34,8 +34,11 @@ const Detail = (props) => {
                 if (res.payload.result === "SUCCESS") {
                     navigate("/updateForm/" + id);
                 } else {
-
-                    alert(res.payload.error.data)
+                    if (res.payload.error.code === "E400") {
+                        alert("로그인이 필요합니다.")
+                    } else {
+                        alert(res.payload.error.data);
+                    }
                 }
             });
     }
@@ -52,7 +55,11 @@ const Detail = (props) => {
                             }
                         });
                 } else {
-                    alert(res.payload.error.data)
+                    if (res.payload.error.code === "E400") {
+                        alert("로그인이 필요합니다.")
+                    } else {
+                        alert(res.payload.error.data);
+                    }
                 }
             });
     }
