@@ -47,4 +47,7 @@ sketch
 .vscode/
 
 ## log
-/logback/
+/logs/
+
+## yml
+src/main/resources/db.yml

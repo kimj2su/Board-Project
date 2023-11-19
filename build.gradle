@@ -5,6 +5,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     // https://github.com/node-gradle/gradle-node-plugin
     id "com.github.node-gradle.node" version "7.0.1"
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -63,6 +64,57 @@ tasks.named('test') {
 
 test {
     outputs.dir snippetsDir
+    finalizedBy jacocoTestReport
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestCoverageVerification {
+
+    violationRules {
+        rule {
+            // 'element'가 없으면 프로젝트의 전체 파일을 합친 값을 기준으로 한다.
+            // 위의 리포트에서 'Total'로 표시된 부분이다.
+            element = 'CLASS'
+            limit {
+                // 'counter'를 지정하지 않으면 default는 'INSTRUCTION'
+                // 'value'를 지정하지 않으면 default는 'COVEREDRATIO'
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.90
+            }
+
+            // 커버리지 체크를 제외할 클래스들
+            excludes = [
+                    // '*.test.*',
+                    '*.ProjectBoardApplication*',
+                    '*.support.*',
+                    '*.config.*',
+                    '*.dto.*'
+            ]
+
+        }
+    }
+}
+
+jacocoTestReport {
+    dependsOn test
+    // 리포트 작성 시 특정 파일 제외
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            '**/ProjectBoardApplication.*',
+                            '**/support/**',
+                            '**/config/**',
+                            '**/dto/**'
+                    ])
+                })
+        )
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
 }
 
 tasks.named('asciidoctor') {
