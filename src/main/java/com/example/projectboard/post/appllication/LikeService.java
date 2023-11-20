@@ -21,8 +21,7 @@ public class LikeService {
     }
 
     public LikeResponse toggleLike(Long postId, MemberDto memberDto) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", postId)));
+        Post post = getPost(postId);
         Member member = memberDto.toEntity();
 
         return LikeResponse.from(post.getLikes().getLikes()
@@ -31,18 +30,21 @@ public class LikeService {
     }
 
     public void increase(Long postId, MemberDto memberDto) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", postId)));
+        Post post = getPost(postId);
         Member member = memberDto.toEntity();
 
         post.increaseLike(member);
     }
 
     public void decrease(Long postId, MemberDto memberDto) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", postId)));
+        Post post = getPost(postId);
         Member member = memberDto.toEntity();
 
         post.decreaseLike(member);
+    }
+
+    private Post getPost(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new PostException(ErrorType.POST_NOT_FOUND, String.format("%s, 게시글이 존재하지 않습니다.", postId)));
     }
 }

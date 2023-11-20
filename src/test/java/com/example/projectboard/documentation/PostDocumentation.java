@@ -8,7 +8,7 @@ import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.post.appllication.dto.v1.request.CreatePostRequestDto;
 import com.example.projectboard.post.appllication.dto.v1.request.ModifyPostRequestDto;
-import com.example.projectboard.post.ui.PaginationService;
+import com.example.projectboard.post.appllication.PaginationService;
 import com.example.projectboard.support.jwt.JwtTokenUtils;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;

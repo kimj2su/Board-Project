@@ -8,6 +8,7 @@ import com.example.projectboard.member.domain.MemberRole;
 import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.support.error.PostException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,9 +30,11 @@ public class PostServiceTest extends AcceptanceTest {
     private MemberRepository memberRepository;
 
     private MemberDto memberDto;
+
     @BeforeEach
     void before() {
-        Member member = memberRepository.save(createMemberDto().toEntity());
+        String existingEmail = "jisu@email.com";
+        Member member = memberRepository.save(createMemberDto(existingEmail).toEntity());
         memberDto = MemberDto.from(member);
     }
 
@@ -143,11 +146,26 @@ public class PostServiceTest extends AcceptanceTest {
         assertThat(findPost.memberDto().id()).isEqualTo(1L);
     }
 
+    @DisplayName("Post 본인 확인 테스트 - 실패 게시글이 없을 때")
+    @Test
+    void validationPostReturnThrowsPostException() {
+        // given : 선행조건 기술
+        PostDto request = createPostDto(memberDto);
+        PostDto postdto = postService.createPost(request);
+        Long id = postdto.id();
+        postService.deletePost(id, memberDto);
+
+        // when : 기능 수행 & then : 결과 확인
+        Assertions.assertThatThrownBy(() -> postService.validationPost(id, memberDto))
+                .isInstanceOf(PostException.class)
+                .hasMessageContaining("1, 게시글이 존재하지 않습니다.");
+    }
+
     private PostDto createPostDto(MemberDto memberDto) {
         return new PostDto(null, memberDto, "title", "content", 0);
     }
 
-    private MemberDto createMemberDto() {
-        return new MemberDto(null, "김지수", "jisu@email.com", "1234", MemberRole.USER);
+    private MemberDto createMemberDto(String email) {
+        return new MemberDto(null, "김지수", email, "1234", MemberRole.USER);
     }
 }

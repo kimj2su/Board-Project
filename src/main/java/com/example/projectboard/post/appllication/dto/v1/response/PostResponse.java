@@ -11,7 +11,4 @@ public record PostResponse(Long id, MemberResponse memberResponse, String title,
         return new PostResponse(postDto.id(), MemberResponse.from(postDto.memberDto()), postDto.title(), postDto.content(), postDto.likeCount());
     }
 
-    public static PostResponse from(PostDto postDto, List<Integer> paginationBarNumbers) {
-        return new PostResponse(postDto.id(), MemberResponse.from(postDto.memberDto()), postDto.title(), postDto.content(), postDto.likeCount());
-    }
 }

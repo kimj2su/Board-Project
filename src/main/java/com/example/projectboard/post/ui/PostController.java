@@ -1,6 +1,7 @@
 package com.example.projectboard.post.ui;
 
 import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.post.appllication.PaginationService;
 import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.post.appllication.dto.v1.request.CreatePostRequestDto;

@@ -1,4 +1,4 @@
-package com.example.projectboard.post.ui;
+package com.example.projectboard.post.appllication;
 
 import org.springframework.stereotype.Service;
 

@@ -77,6 +77,18 @@ public class MemberServiceTest extends AcceptanceTest {
         assertThat(findMember.email()).isEqualTo(savedMember.email());
     }
 
+    @DisplayName("Member 단건 조회 테스트")
+    @Test
+    void findMemberReturnThrows() {
+        // given : 선행조건 기술
+        Long notExistMemberId = 1L;
+
+        // when : 기능 수행 & then : 결과 확인
+        assertThatThrownBy(() -> memberService.findMember(notExistMemberId))
+                .isInstanceOf(MemberException.class)
+                .hasMessage(String.format("%s, 회원을 찾을 수 없습니다.", notExistMemberId));
+    }
+
     @DisplayName("Member 수정 테스트")
     @Test
     void modifyMember() {
@@ -107,7 +119,7 @@ public class MemberServiceTest extends AcceptanceTest {
         // then : 결과 확인
         assertThatThrownBy(() -> memberService.findMember(savedMember.id()))
                 .isInstanceOf(MemberException.class)
-                .hasMessage("회원을 찾을 수 없습니다.");
+                .hasMessage("1, 회원을 찾을 수 없습니다.");
     }
 
     @DisplayName("Member 이메일 조회 테스트 - 성공")

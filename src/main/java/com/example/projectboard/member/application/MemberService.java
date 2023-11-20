@@ -7,7 +7,6 @@ import com.example.projectboard.member.domain.MemberRepository;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.MemberException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,20 +41,17 @@ public class MemberService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public MemberDto findMember(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원을 찾을 수 없습니다.", id)));
+        Member member = getMember(id);
         return MemberDto.from(member);
     }
 
     public void modifyMember(Long id, MemberDto memberDto) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원을 찾을 수 없습니다.", id)));
+        Member member = getMember(id);
         member.modify(memberDto.name(), memberDto.email());
     }
 
     public void deleteMember(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원을 찾을 수 없습니다.", id)));
+        Member member = getMember(id);
         member.deleted();
     }
 
@@ -65,4 +61,8 @@ public class MemberService implements UserDetailsService {
                 new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s not founded", email)));
     }
 
+    private Member getMember(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new MemberException(ErrorType.MEMBER_NOT_FOUND_ERROR, String.format("%s, 회원을 찾을 수 없습니다.", id)));
+    }
 }

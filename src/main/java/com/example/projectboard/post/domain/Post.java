@@ -1,6 +1,7 @@
 package com.example.projectboard.post.domain;
 
 import com.example.projectboard.member.domain.Member;
+import com.example.projectboard.support.annotation.jacoco.Generated;
 import com.example.projectboard.support.entity.BaseEntity;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.PostException;
@@ -60,7 +61,7 @@ public class Post extends BaseEntity {
     }
 
     public void validationMember(Member member) {
-        if (this.member != member) {
+        if (!this.member.equals(member)) {
             throw new PostException(ErrorType.MEMBER_PERMISSION_ERROR, "작성자가 아닙니다.");
         }
     }
@@ -93,6 +94,7 @@ public class Post extends BaseEntity {
         return likes;
     }
 
+    @Generated
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,6 +103,7 @@ public class Post extends BaseEntity {
         return Objects.equals(getId(), post.getId());
     }
 
+    @Generated
     @Override
     public int hashCode() {
         return Objects.hash(getId());

@@ -5,6 +5,7 @@ import com.example.projectboard.post.domain.Like;
 import com.example.projectboard.post.domain.Post;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,15 +23,19 @@ public class LikeTest {
         Like like = createLike(post, member);
 
         // then : 결과 확인
+        assertThat(like.getId()).isEqualTo(1L);
         assertThat(like.getPost()).isEqualTo(post);
         assertThat(like.getMember()).isEqualTo(member);
     }
 
     private Like createLike(Post post, Member member) {
-        return Like.builder()
+        Like like = Like.builder()
                 .post(post)
                 .member(member)
                 .build();
+        ReflectionTestUtils.setField(like, "id", 1L);
+
+        return like;
     }
 
     private Post createPost(Member member) {

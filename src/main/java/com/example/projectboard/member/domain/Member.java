@@ -1,5 +1,6 @@
 package com.example.projectboard.member.domain;
 
+import com.example.projectboard.support.annotation.jacoco.Generated;
 import com.example.projectboard.support.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -84,14 +85,16 @@ public class Member extends BaseEntity {
         return memberRole;
     }
 
+    @Generated
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return Objects.equals(id, member.id);
+        return Objects.equals(getId(), member.getId());
     }
 
+    @Generated
     @Override
     public int hashCode() {
         return Objects.hash(getId());
