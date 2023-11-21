@@ -48,7 +48,10 @@ jobs:
           gradle-version: '8.3'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build sonar 
+          -Dsonar.projectKey=${{ secrets.SONARQUBE_PROJECT_KEY }}
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
