@@ -116,7 +116,7 @@ tasks.named("bootJar") {
 node {
     // 프론트엔드 프로젝트 경로
     nodeProjectDir = file("$projectDir/front")
-    version = '18.3.0'
+    version = '21.1.0'
     download = true
 }
 
