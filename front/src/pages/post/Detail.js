@@ -34,7 +34,7 @@ const Detail = (props) => {
                 if (res.payload.result === "SUCCESS") {
                     navigate("/updateForm/" + id);
                 } else {
-                    if (res.payload.error.code === "E400") {
+                    if (res.payload.error.data === null) {
                         alert("로그인이 필요합니다.")
                     } else {
                         alert(res.payload.error.data);
@@ -55,7 +55,7 @@ const Detail = (props) => {
                             }
                         });
                 } else {
-                    if (res.payload.error.code === "E400") {
+                    if (res.payload.error.data === null) {
                         alert("로그인이 필요합니다.")
                     } else {
                         alert(res.payload.error.data);
