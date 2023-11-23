@@ -24,6 +24,7 @@ repositories {
     mavenCentral()
 }
 
+// snippetsDir 경로를 위한 변수 설정
 ext {
     set('snippetsDir', file("build/generated-snippets"))
 }
@@ -137,16 +138,6 @@ jacocoTestReport {
     finalizedBy 'jacocoTestCoverageVerification'
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
-}
-
-// snippetsDir 경로를 위한 변수 설정
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
-
 asciidoctor {
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
@@ -160,8 +151,12 @@ asciidoctor {
 
 // 배포시 문서를 포함하기 위한 설정
 bootJar {
+    archivesBaseName = "board"
+    archiveFileName = "board.jar"
+    archiveVersion = "0.0.1"
+
     dependsOn asciidoctor
-    from("${asciidoctor.outputDir}/html5") {
+    from("${asciidoctor.outputDir}") {
         into 'static/docs'
     }
 }
@@ -177,12 +172,6 @@ task copyDocument(type: Copy) {
 
 tasks.named("jar") {
     enabled = false
-}
-
-tasks.named("bootJar") {
-    archivesBaseName = "board"
-    archiveFileName = "board.jar"
-    archiveVersion = "0.0.1"
 }
 
 node {
@@ -212,4 +201,3 @@ copyFrontEnd.dependsOn npmBuild
 compileJava.dependsOn copyFrontEnd
 
 clean.dependsOn cleanFrontEnd
-
