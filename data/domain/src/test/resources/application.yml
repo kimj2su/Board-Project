@@ -1,0 +1,39 @@
+
+spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    # 하이버네이트 버전업으로 인한 바인딩 출력 옵션 변경
+    org.hibernate.orm.jdbc.bind: trace
+
+---
+
+spring.config.activate.on-profile: test
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create # create update none
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:core;NON_KEYWORDS=USER;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    hikari:
+      data-source-properties:
+        rewriteBatchedStatements: true
+
+# JWT
+jwt:
+  secret-key: com.example.kim_ji_su.application-2023.secret_key
+  #30 days
+  token-expired-time-ms: 2592000000

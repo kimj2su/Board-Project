@@ -1,1 +1,5 @@
-rootProject.name = 'project-board-pp'
+rootProject.name = 'Board-Project'
+
+include 'boot:api'
+include 'data:domain'
+include 'support'

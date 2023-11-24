@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    default: local
+  config:
+    import: db-application.yml
+management:
+  endpoints:
+    web:
+      base-path: /management
+      path-mapping:
+        health: health_check
+        exposure:
+            include: "*"
+---
+spring.config.activate.on-profile: local
+
+# JWT
+jwt:
+  secret-key: com.example.kim_ji_su.application-2023.secret_key
+  #30 days
+  token-expired-time-ms: 2592000000
+
+---
+
+spring.config.activate.on-profile: dev
+
+# JWT
+jwt:
+  secret-key: com.example.kim_ji_su.application-2023.secret_key
+  #30 days
+  token-expired-time-ms: 2592000000
