@@ -14,6 +14,6 @@ public record CreateMemberRequestDto(
 ) {
 
     public MemberDto toMemberDto() {
-        return new MemberDto(null, name, email, password, null);
+        return new MemberDto(null, name, email, password, null, null);
     }
 }

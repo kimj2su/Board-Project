@@ -8,6 +8,7 @@ import LoginForm from "./pages/user/LoginForm";
 import JoinForm from "./pages/user/JoinForm";
 import UpdateForm from "./pages/post/UpdateForm";
 import PrivateRoute from "./actions/PrivateRoute";
+import MyPage from "./pages/user/MyPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                 <Route element={ <PrivateRoute /> }>
                     <Route path="/updateForm/:id" element={ <UpdateForm />}/>
                 </Route>
+                <Route path="/myPage" element={ <MyPage />}/>
             </Routes>
         </div>
       </BrowserRouter>

@@ -22,6 +22,7 @@ const Header = () => {
                         {!isLogin && <Link to="/login" className="nav-link">로그인</Link>}
                         {isLogin  && <Link to="/save" className="nav-link">글 쓰기</Link>}
                         {isLogin && <Link to="/" className="nav-link">글 목록</Link>}
+                        {isLogin && <Link to="/myPage" className="nav-link">내 정보</Link>}
                         {isLogin && <Logout />}
                     </Nav>
                 </Container>

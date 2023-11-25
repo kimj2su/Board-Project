@@ -1,13 +1,14 @@
 package com.example.projectboard.unit.member;
 
 import com.example.projectboard.acceptance.AcceptanceTest;
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.support.error.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.projectboard.support.error.MemberException;
 
 import java.util.List;
 
@@ -149,10 +150,10 @@ public class MemberServiceTest extends AcceptanceTest {
     }
 
     private MemberDto createMemberDto() {
-        return new MemberDto(null, "김지수", "jisu@email.com", "1234", MemberRole.USER);
+        return new MemberDto(null, "김지수", "jisu@email.com", "1234", MemberRole.USER, Level.NORMAL);
     }
 
     private MemberDto modifyMemberDto() {
-        return new MemberDto(null, "김지수2", "jisu2@email.com", "1234", MemberRole.USER);
+        return new MemberDto(null, "김지수2", "jisu2@email.com", "1234", MemberRole.USER, Level.NORMAL);
     }
 }

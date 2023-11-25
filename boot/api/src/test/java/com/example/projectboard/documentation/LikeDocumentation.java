@@ -1,6 +1,7 @@
 package com.example.projectboard.documentation;
 
 import com.example.projectboard.acceptance.LikeSteps;
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
@@ -125,6 +126,6 @@ public class LikeDocumentation extends Documentation {
     }
 
     private MemberDto memberDto() {
-        return new MemberDto(1L, name, email, password, MemberRole.USER);
+        return new MemberDto(1L, name, email, password, MemberRole.USER, Level.NORMAL);
     }
 }

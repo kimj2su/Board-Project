@@ -1,6 +1,7 @@
 package com.example.projectboard.member;
 
 import com.example.projectboard.BaseEntity;
+import com.example.projectboard.post.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -9,12 +10,16 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.example.projectboard.support.annotation.jacoco.Generated;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -38,6 +43,9 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private final MemberRole memberRole = MemberRole.USER;
+
+    @Enumerated(EnumType.STRING)
+    private Level level = Level.NORMAL;
 
     protected Member() {}
 
@@ -83,6 +91,10 @@ public class Member extends BaseEntity {
 
     public MemberRole getMemberRole() {
         return memberRole;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     @Generated

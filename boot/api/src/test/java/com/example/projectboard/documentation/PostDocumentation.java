@@ -1,14 +1,15 @@
 package com.example.projectboard.documentation;
 
 import com.example.projectboard.acceptance.PostSteps;
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.post.appllication.PaginationService;
 import com.example.projectboard.post.appllication.PostService;
 import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.post.appllication.dto.v1.request.CreatePostRequestDto;
 import com.example.projectboard.post.appllication.dto.v1.request.ModifyPostRequestDto;
-import com.example.projectboard.post.appllication.PaginationService;
 import com.example.projectboard.support.jwt.JwtTokenUtils;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
@@ -278,6 +279,6 @@ class PostDocumentation extends Documentation {
     }
 
     private MemberDto memberDto() {
-        return new MemberDto(1L, name, email, password, MemberRole.USER);
+        return new MemberDto(1L, name, email, password, MemberRole.USER, Level.NORMAL);
     }
 }

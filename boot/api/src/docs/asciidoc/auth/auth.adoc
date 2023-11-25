@@ -1,3 +1,7 @@
 === 로그인
 operation::auth-login[snippets='http-request,request-fields']
 operation::auth-login[snippets='http-response,response-fields']
+
+=== 내정보 조회
+operation::auth-myPage[snippets='http-request,request-headers']
+operation::auth-myPage[snippets='http-response,response-fields']

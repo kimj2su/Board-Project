@@ -1,6 +1,7 @@
 package com.example.projectboard.unit.post;
 
 import com.example.projectboard.acceptance.AcceptanceTest;
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.Member;
 import com.example.projectboard.member.MemberRepository;
 import com.example.projectboard.member.MemberRole;
@@ -115,6 +116,6 @@ public class LikeServiceTest extends AcceptanceTest {
     }
 
     private MemberDto createMemberDto(String email) {
-        return new MemberDto( null, "김지수", email, "1234", MemberRole.USER);
+        return new MemberDto( null, "김지수", email, "1234", MemberRole.USER, Level.NORMAL);
     }
 }

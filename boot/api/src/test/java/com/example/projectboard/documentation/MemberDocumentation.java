@@ -1,6 +1,7 @@
 package com.example.projectboard.documentation;
 
 import com.example.projectboard.acceptance.MemberSteps;
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
@@ -16,13 +17,12 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 @DisplayName("회원 관련 문서화")
 class MemberDocumentation extends Documentation {
@@ -170,6 +170,6 @@ class MemberDocumentation extends Documentation {
     }
 
     private MemberDto memberDto() {
-        return new MemberDto(1L, name, email, password, MemberRole.USER);
+        return new MemberDto(1L, name, email, password, MemberRole.USER, Level.NORMAL);
     }
 }

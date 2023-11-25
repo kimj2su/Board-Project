@@ -4,12 +4,13 @@ package com.example.projectboard.unit.auth;
 import com.example.projectboard.acceptance.AcceptanceTest;
 import com.example.projectboard.auth.application.AuthService;
 import com.example.projectboard.auth.application.dto.AuthDto;
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.support.error.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.projectboard.support.error.MemberException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,6 +48,23 @@ class AuthServiceTest extends AcceptanceTest {
                 .hasMessage("로그인 정보가 일치하지 않습니다.");
     }
 
+    @Test
+    @DisplayName("회원 조회 - 성공")
+    void findMember() {
+        // given : 선행조건 기술
+        MemberDto memberDto = memberService.createMember(createMemberDto());
+
+        // when : 기능 수행
+        MemberDto findMember = authService.findMember(memberDto.id());
+
+        // then : 결과 확인
+        assertThat(findMember).isNotNull();
+        assertThat(findMember.id()).isEqualTo(memberDto.id());
+        assertThat(findMember.name()).isEqualTo(memberDto.name());
+        assertThat(findMember.email()).isEqualTo(memberDto.email());
+        assertThat(findMember.level()).isEqualTo(memberDto.level());
+    }
+
     private AuthDto createAuthDto() {
         return new AuthDto("jisu@email.com", "1234");
     }
@@ -55,6 +73,6 @@ class AuthServiceTest extends AcceptanceTest {
     }
 
     private MemberDto createMemberDto() {
-        return new MemberDto(null, "김지수", "jisu@email.com", "1234", null);
+        return new MemberDto(null, "김지수", "jisu@email.com", "1234", null, Level.NORMAL);
     }
 }

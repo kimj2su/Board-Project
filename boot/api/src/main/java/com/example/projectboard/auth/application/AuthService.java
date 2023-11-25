@@ -4,12 +4,12 @@ import com.example.projectboard.auth.application.dto.AuthDto;
 import com.example.projectboard.config.JwtTokenProperties;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
+import com.example.projectboard.support.error.ErrorType;
+import com.example.projectboard.support.error.MemberException;
 import com.example.projectboard.support.jwt.JwtTokenUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.projectboard.support.error.ErrorType;
-import com.example.projectboard.support.error.MemberException;
 
 @Service
 @Transactional
@@ -36,5 +36,10 @@ public class AuthService {
 
         // 토큰생성
         return JwtTokenUtils.generateToken(memberDto.email(), jwtTokenProperties.getSecretKey(), jwtTokenProperties.getTokenExpiredTimeMs());
+    }
+
+    @Transactional(readOnly = true)
+    public MemberDto findMember(Long id) {
+        return memberService.findMember(id);
     }
 }

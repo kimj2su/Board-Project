@@ -1,6 +1,7 @@
 package com.example.projectboard.member.application.dto;
 
 
+import com.example.projectboard.member.Level;
 import com.example.projectboard.member.Member;
 import com.example.projectboard.member.MemberRole;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,14 +11,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public record MemberDto(Long id, String name, String email, String password, MemberRole memberRole) implements UserDetails {
+public record MemberDto(Long id, String name, String email, String password, MemberRole memberRole, Level level) implements UserDetails {
 
     public Member toEntity() {
         return Member.of(id, name, email, password);
     }
 
     public static MemberDto from(Member member) {
-        return new MemberDto(member.getId(), member.getName(), member.getEmail(), member.getPassword(), member.getMemberRole());
+        return new MemberDto(member.getId(), member.getName(), member.getEmail(), member.getPassword(), member.getMemberRole(), member.getLevel());
     }
 
     @Override
