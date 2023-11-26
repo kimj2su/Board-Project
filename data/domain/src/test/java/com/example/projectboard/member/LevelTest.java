@@ -5,73 +5,28 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Level 테스트")
+@DisplayName("Level Domain 테스트")
 public class LevelTest {
 
-    @DisplayName("Level 생성 테스트")
     @Test
     void createLevel() {
         // given : 선행조건 기술
-        Level level = Level.NORMAL;
 
         // when : 기능 수행
-        Level level1 = Level.valueOf(level.name());
+        Level level = new Level(createMember("김지수", "kimjisu3268@gmail.com", "1234"), 0, 0);
 
         // then : 결과 확인
-        assertThat(level).isEqualTo(level1);
+        assertThat(level.getMember()).isNotNull();
+        assertThat(level.getMemberLevel()).isEqualTo(MemberLevel.NORMAL);
+        assertThat(level.getPostCount()).isEqualTo(0);
+        assertThat(level.getLikesCount()).isEqualTo(0);
     }
 
-    @DisplayName("Level 다음 레벨 조회 테스트 - NORMAL")
-    @Test
-    void getNextLevelWithNORMAL() {
-        // given : 선행조건 기술
-        Level level = Level.NORMAL;
-
-        // when : 기능 수행
-        Level nextLevel = Level.getNextLevel(5);
-
-        // then : 결과 확인
-        assertThat(nextLevel).isEqualTo(Level.SILVER);
+    private Member createMember(String name, String email, String password) {
+        return Member.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .build();
     }
-
-    @DisplayName("Level 다음 레벨 조회 테스트 - VIP")
-    @Test
-    void getNextLevelWithVIP() {
-        // given : 선행조건 기술
-        Level level = Level.VIP;
-
-        // when : 기능 수행
-        Level nextLevel = Level.getNextLevel(30);
-
-        // then : 결과 확인
-        assertThat(nextLevel).isEqualTo(Level.VIP);
-    }
-
-    @DisplayName("Level 다음 레벨이 있는지 확인 테스")
-    @Test
-    void availableLevelUpWithNORMAL() {
-        // given : 선행조건 기술
-        Level level = Level.NORMAL;
-
-        // when : 기능 수행
-        boolean isLevelUp = Level.availableLevelUp(level, 10);
-
-        // then : 결과 확인
-        assertThat(isLevelUp).isTrue();
-    }
-
-    @DisplayName("Level 다음 레벨이 있는지 확인 테스트 - 경계값")
-    @Test
-    void availableLevelUpWithVIP() {
-        // given : 선행조건 기술
-        Level level = Level.VIP;
-
-        // when : 기능 수행
-        boolean isLevelUp = Level.availableLevelUp(level, 30);
-
-        // then : 결과 확인
-        assertThat(isLevelUp).isFalse();
-    }
-
-
 }

@@ -1,60 +1,81 @@
 package com.example.projectboard.member;
 
-import java.util.Objects;
+import com.example.projectboard.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-public enum Level {
+@Entity
+@DynamicInsert
+@DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
+public class Level extends BaseEntity {
 
-    VIP(20, null),
-    GOLD(15, VIP),
-    SILVER(10, GOLD),
-    NORMAL(5, SILVER);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final int nextPoint;
-    private final Level nextLevel;
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    Level(int nextPoint, Level nextLevel) {
-        this.nextPoint = nextPoint;
-        this.nextLevel = nextLevel;
+    private int postCount;
+
+    private int likesCount;
+
+    @Enumerated(EnumType.STRING)
+    private MemberLevel memberLevel = MemberLevel.NORMAL;
+
+    public Level() {
     }
 
-    public static Level getNextLevel(int nextPoint) {
-        if (nextPoint >= Level.VIP.nextPoint) {
-            return VIP;
-        }
-
-        if (nextPoint >= Level.GOLD.nextPoint) {
-            return GOLD.nextLevel;
-        }
-
-        if (nextPoint >= Level.SILVER.nextPoint) {
-            return SILVER.nextLevel;
-        }
-
-        if (nextPoint >= Level.NORMAL.nextPoint) {
-            return NORMAL.nextLevel;
-        }
-
-        return NORMAL;
+    public Level(Member member, int postCount, int likesCount) {
+        this.member = member;
+        this.postCount = postCount;
+        this.likesCount = likesCount;
     }
 
-    public static boolean availableLevelUp(Level level, int totalPoint) {
-        if (Objects.isNull(level)) {
-            return false;
-        }
-
-        if (Objects.isNull(level.nextLevel)) {
-            return false;
-        }
-
-
-        return totalPoint >= level.nextPoint;
+    public void levelUp(int postCount, int likesCount) {
+        addPostCount(postCount);
+        addLikesCount(likesCount);
+        this.memberLevel = MemberLevel.getNextLevel(this.postCount + this.likesCount);
     }
 
-    public int getNextPoint() {
-        return nextPoint;
+    private void addPostCount(int postCount) {
+        this.postCount += postCount;
     }
 
-    public Level getNextLevel() {
-        return nextLevel;
+    private void addLikesCount(int likesCount) {
+        this.likesCount += likesCount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public int getPostCount() {
+        return postCount;
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public MemberLevel getMemberLevel() {
+        return memberLevel;
     }
 }

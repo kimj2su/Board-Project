@@ -3,7 +3,6 @@ package com.example.projectboard.member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Member 테스트")
@@ -27,7 +26,7 @@ public class MemberTest {
         assertThat(member.getEmail()).isEqualTo(email);
         assertThat(member.getPassword()).isEqualTo(password);
         assertThat(member.getMemberRole()).isEqualTo(MemberRole.USER);
-        assertThat(member.getLevel()).isEqualTo(Level.NORMAL);
+        assertThat(member.getLevel().getMemberLevel()).isEqualTo(MemberLevel.NORMAL);
     }
 
     @DisplayName("멤버 수정 테스트")
@@ -45,7 +44,7 @@ public class MemberTest {
         assertThat(member.getName()).isEqualTo(modifyName);
         assertThat(member.getEmail()).isEqualTo(modifyEmail);
         assertThat(member.getMemberRole()).isEqualTo(MemberRole.USER);
-        assertThat(member.getLevel()).isEqualTo(Level.NORMAL);
+        assertThat(member.getLevel().getMemberLevel()).isEqualTo(MemberLevel.NORMAL);
     }
 
     private Member createMember(String name, String email, String password) {

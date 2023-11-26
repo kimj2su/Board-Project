@@ -1,7 +1,7 @@
 package com.example.projectboard.member;
 
 import com.example.projectboard.BaseEntity;
-import com.example.projectboard.post.Post;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -10,16 +10,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.example.projectboard.support.annotation.jacoco.Generated;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -44,8 +41,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private final MemberRole memberRole = MemberRole.USER;
 
-    @Enumerated(EnumType.STRING)
-    private Level level = Level.NORMAL;
+    @OneToOne(mappedBy = "member", orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Level level;
 
     protected Member() {}
 
@@ -54,6 +51,7 @@ public class Member extends BaseEntity {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.level = new Level(this, 0, 0);
     }
 
     public static Member of(String name, String email, String password) {
