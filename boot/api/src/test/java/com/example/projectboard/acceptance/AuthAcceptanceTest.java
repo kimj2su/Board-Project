@@ -61,6 +61,6 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         assertThat(response.jsonPath().getString("data.id")).isNotNull();
         assertThat(response.jsonPath().getString("data.name")).isEqualTo(name);
         assertThat(response.jsonPath().getString("data.email")).isEqualTo(email);
-        assertThat(response.jsonPath().getString("data.level")).isEqualTo("NORMAL");
+        assertThat(response.jsonPath().getString("data.memberLevel")).isEqualTo("NORMAL");
     }
 }

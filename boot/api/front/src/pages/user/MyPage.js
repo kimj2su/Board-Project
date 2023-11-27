@@ -10,7 +10,7 @@ const MyPage = () => {
         id: "",
         name: "",
         email: "",
-        level: "",
+        memberLevel: "",
     });
 
     const fetchPosts = () => {
@@ -35,7 +35,7 @@ const MyPage = () => {
             <Stack gap={3}>
                 <div className="p-2"> Name : {member.name}</div>
                 <div className="p-2"> Email : {member.email}</div>
-                <div className="p-2"> Level : {member.level}</div>
+                <div className="p-2"> Level : {member.memberLevel}</div>
             </Stack>
 
             <Button variant="primary" type="button" onClick={historyBack}>

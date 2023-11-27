@@ -3,7 +3,7 @@ package com.example.projectboard.documentation;
 import com.example.projectboard.acceptance.AuthSteps;
 import com.example.projectboard.auth.application.AuthService;
 import com.example.projectboard.auth.application.dto.request.AuthRequest;
-import com.example.projectboard.member.Level;
+import com.example.projectboard.member.MemberLevel;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
@@ -85,7 +85,7 @@ public class AuthDocumentation extends Documentation {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원 ID"),
                                 fieldWithPath("data.name").type(JsonFieldType.STRING).description("회원 이름"),
                                 fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
-                                fieldWithPath("data.level").type(JsonFieldType.STRING).description("회원 등급"),
+                                fieldWithPath("data.memberLevel").type(JsonFieldType.STRING).description("회원 등급"),
                                 fieldWithPath("error").type(JsonFieldType.NULL).optional().description("에러 내용")
                         )
                 ));
@@ -99,6 +99,6 @@ public class AuthDocumentation extends Documentation {
     }
 
     private MemberDto memberDto() {
-        return new MemberDto(1L, name, email, password, MemberRole.USER, Level.NORMAL);
+        return new MemberDto(1L, name, email, password, MemberRole.USER, MemberLevel.NORMAL);
     }
 }

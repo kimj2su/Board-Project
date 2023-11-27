@@ -1,7 +1,7 @@
 package com.example.projectboard.unit.member;
 
 import com.example.projectboard.acceptance.AcceptanceTest;
-import com.example.projectboard.member.Level;
+import com.example.projectboard.member.MemberLevel;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -75,6 +76,7 @@ public class MemberServiceTest extends AcceptanceTest {
         assertThat(findMember.id()).isEqualTo(savedMember.id());
         assertThat(findMember.name()).isEqualTo(savedMember.name());
         assertThat(findMember.email()).isEqualTo(savedMember.email());
+        assertThat(findMember.memberLevel().name()).isEqualTo(MemberLevel.NORMAL.name());
     }
 
     @DisplayName("Member 단건 조회 테스트")
@@ -150,10 +152,10 @@ public class MemberServiceTest extends AcceptanceTest {
     }
 
     private MemberDto createMemberDto() {
-        return new MemberDto(null, "김지수", "jisu@email.com", "1234", MemberRole.USER, Level.NORMAL);
+        return new MemberDto(null, "김지수", "jisu@email.com", "1234", MemberRole.USER, MemberLevel.NORMAL);
     }
 
     private MemberDto modifyMemberDto() {
-        return new MemberDto(null, "김지수2", "jisu2@email.com", "1234", MemberRole.USER, Level.NORMAL);
+        return new MemberDto(null, "김지수2", "jisu2@email.com", "1234", MemberRole.USER, MemberLevel.NORMAL);
     }
 }

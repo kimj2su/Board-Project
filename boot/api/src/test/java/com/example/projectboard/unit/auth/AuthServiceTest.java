@@ -4,7 +4,7 @@ package com.example.projectboard.unit.auth;
 import com.example.projectboard.acceptance.AcceptanceTest;
 import com.example.projectboard.auth.application.AuthService;
 import com.example.projectboard.auth.application.dto.AuthDto;
-import com.example.projectboard.member.Level;
+import com.example.projectboard.member.MemberLevel;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
 import com.example.projectboard.support.error.MemberException;
@@ -62,7 +62,7 @@ class AuthServiceTest extends AcceptanceTest {
         assertThat(findMember.id()).isEqualTo(memberDto.id());
         assertThat(findMember.name()).isEqualTo(memberDto.name());
         assertThat(findMember.email()).isEqualTo(memberDto.email());
-        assertThat(findMember.level()).isEqualTo(memberDto.level());
+        assertThat(findMember.memberLevel()).isEqualTo(memberDto.memberLevel());
     }
 
     private AuthDto createAuthDto() {
@@ -73,6 +73,6 @@ class AuthServiceTest extends AcceptanceTest {
     }
 
     private MemberDto createMemberDto() {
-        return new MemberDto(null, "김지수", "jisu@email.com", "1234", null, Level.NORMAL);
+        return new MemberDto(null, "김지수", "jisu@email.com", "1234", null, MemberLevel.NORMAL);
     }
 }

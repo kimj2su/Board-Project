@@ -1,7 +1,7 @@
 package com.example.projectboard.documentation;
 
 import com.example.projectboard.acceptance.MemberSteps;
-import com.example.projectboard.member.Level;
+import com.example.projectboard.member.MemberLevel;
 import com.example.projectboard.member.MemberRole;
 import com.example.projectboard.member.application.MemberService;
 import com.example.projectboard.member.application.dto.MemberDto;
@@ -170,6 +170,6 @@ class MemberDocumentation extends Documentation {
     }
 
     private MemberDto memberDto() {
-        return new MemberDto(1L, name, email, password, MemberRole.USER, Level.NORMAL);
+        return new MemberDto(1L, name, email, password, MemberRole.USER, MemberLevel.NORMAL);
     }
 }
