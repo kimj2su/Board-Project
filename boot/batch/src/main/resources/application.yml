@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    default: local
+  config:
+    import: db-application.yml
+  batch:
+    job:
+      name: ${job.name:NONE}
+---
+spring.config.activate.on-profile: local
+
+
+---
+
+spring.config.activate.on-profile: dev
