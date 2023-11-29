@@ -2,7 +2,7 @@ name: CI-CD (Java with Gradle)
 on: workflow_dispatch
 
 env:
-  RESOURCE_PATH: ./src/main/resources/db.yml
+  RESOURCE_PATH: ./data/domain/src/main/resources/db.yml
 
 jobs:
   build:
@@ -48,8 +48,9 @@ jobs:
           gradle-version: '8.3'
 
       - name: Build with Gradle
-        run: ./gradlew build sonar 
+        run: ./gradlew clean :boot:api:buildNeeded sonar
           -Dsonar.projectKey=${{ secrets.SONARQUBE_PROJECT_KEY }}
+          -Dsonar.projectName=${{ secrets.SONARQUBE_PROJECT_NAME }}
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
           -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
@@ -57,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-build-artifacts
-          path: build/libs
+          path: ./boot/api/build/libs
 
       - name: Notice when a build finishes
         if: always()

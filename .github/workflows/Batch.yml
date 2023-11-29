@@ -1,0 +1,70 @@
+name: Spring Batch Cron (Java with Gradle)
+
+on:
+  schedule:
+    # https://crontab.guru/
+    # 이 크론은 매일 15시(한국 시간 00시)에 실행됩니다.
+    - cron: '00 15 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Set DB settings
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }}
+        env:
+          spring.datasource.url: ${{ secrets.RDS_HOST }}
+          spring.datasource.username: ${{ secrets.RDS_USERNAME }}
+          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
+
+      - id: gradle-cache
+        name: Cache Gradle
+        uses: actions/cache@v3
+        env:
+          cache-gradle-name: cache-gradle-name
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-gradle-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: '8.3'
+
+      - name: Build with Gradle
+        run: ./gradlew clean :boot:batch:buildNeeded
+
+      - name: execute batch
+        run: java -jar -Dspring.profiles.active=dev ./boot/batch/build/libs/batch.jar --job.name=memberLevelUpBatchJob nowDate=${{ steps.date.outputs.date }}
+
+      - name: Notice when a build finishes
+        if: always()
+        uses: 8398a7/action-slack@v3.2.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,workflow,job,ref,commit,author,action,eventName,took
+          autohr_name: GitHub Action Slack

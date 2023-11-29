@@ -65,8 +65,8 @@ public class MemberLevelUpConfiguration {
     @StepScope
     public ItemReader<MemberActivityCount> reader() {
         Map<String, Object> parameterValues = new HashMap<>();
-        LocalDateTime start = levelUpJobParameter.getNowDate();
-        LocalDateTime end = levelUpJobParameter.getNowDate().plusDays(1);
+        LocalDateTime start = levelUpJobParameter.getNowDate().minusDays(1);
+        LocalDateTime end = levelUpJobParameter.getNowDate();
         parameterValues.put("start", start);
         parameterValues.put("end", end);
 
