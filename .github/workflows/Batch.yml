@@ -6,6 +6,9 @@ on:
     # 이 크론은 매일 15시(한국 시간 00시)에 실행됩니다.
     - cron: '00 15 * * *'
 
+env:
+  RESOURCE_PATH: ./data/domain/src/main/resources/db.yml
+
 jobs:
   build:
     runs-on: ubuntu-latest
