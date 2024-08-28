@@ -15,31 +15,33 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AuthService {
 
-    private final MemberService memberService;
-    private final BCryptPasswordEncoder passwordEncoder;
+  private final MemberService memberService;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-    private final JwtTokenProperties jwtTokenProperties;
+  private final JwtTokenProperties jwtTokenProperties;
 
-    public AuthService(MemberService memberService, BCryptPasswordEncoder passwordEncoder, JwtTokenProperties jwtTokenProperties) {
-        this.memberService = memberService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProperties = jwtTokenProperties;
+  public AuthService(MemberService memberService, BCryptPasswordEncoder passwordEncoder,
+      JwtTokenProperties jwtTokenProperties) {
+    this.memberService = memberService;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtTokenProperties = jwtTokenProperties;
+  }
+
+  @Transactional(readOnly = true)
+  public String login(AuthDto authDto) {
+    MemberDto memberDto = memberService.loadUserByUsername(authDto.email());
+
+    if (!passwordEncoder.matches(authDto.password(), memberDto.password())) {
+      throw new MemberException(ErrorType.MEMBER_PASSWORD_NOT_MATCH_ERROR, "로그인 정보가 일치하지 않습니다.");
     }
 
-    @Transactional(readOnly = true)
-    public String login(AuthDto authDto) {
-        MemberDto memberDto = memberService.loadUserByUsername(authDto.email());
+    // 토큰생성
+    return JwtTokenUtils.generateToken(memberDto.email(), jwtTokenProperties.getSecretKey(),
+        jwtTokenProperties.getTokenExpiredTimeMs());
+  }
 
-        if (!passwordEncoder.matches(authDto.password(), memberDto.password())) {
-            throw new MemberException(ErrorType.MEMBER_PASSWORD_NOT_MATCH_ERROR, "로그인 정보가 일치하지 않습니다.");
-        }
-
-        // 토큰생성
-        return JwtTokenUtils.generateToken(memberDto.email(), jwtTokenProperties.getSecretKey(), jwtTokenProperties.getTokenExpiredTimeMs());
-    }
-
-    @Transactional(readOnly = true)
-    public MemberDto findMember(Long id) {
-        return memberService.findMember(id);
-    }
+  @Transactional(readOnly = true)
+  public MemberDto findMember(Long id) {
+    return memberService.findMember(id);
+  }
 }

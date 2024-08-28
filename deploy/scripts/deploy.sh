@@ -3,15 +3,17 @@
 BASE_PATH=/home/ubuntu/app/nonstop
 BUILD_PATH=$(ls $BASE_PATH/base_jar/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
-echo "> (1) build 파일명: $JAR_NAME"
+echo "> build 파일명: $JAR_NAME"
 
 # (2) 빌드 된 jar 파일 jar 디렉토리로 복사
-echo "> (2) build 파일 복사"
+echo "> build 파일 복사"
+#DEPLOY_PATH=$BASE_PATH/jar/
 DEPLOY_PATH=$BASE_PATH/deploy/jar/
 cp $BUILD_PATH $DEPLOY_PATH
 
 ## (3) 현재 구동 중인 포트 확인
-echo "> (3) 현재 구동중인 포트 확인"
+echo "> 현재 구동중인 포트 확인"
+#CURRENT_PORT=$(cat /opt/homebrew/etc/nginx/service-url.inc | egrep -o "[0-9]+" | tail -1)
 CURRENT_PORT=$(curl -s http://localhost/health | egrep -o "[0-9]+" | tail -1)
 echo "> Current port of running WAS is ${CURRENT_PORT}."
 

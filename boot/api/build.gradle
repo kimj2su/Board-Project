@@ -16,11 +16,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
+//    api 'com.github.kimj2su:jwt-auth:main-SNAPSHOT'
     //Jwt
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
 
     // rest docs
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
@@ -153,30 +153,30 @@ jacocoTestReport {
     finalizedBy 'jacocoTestCoverageVerification'
 }
 
-node {
-    // 프론트엔드 프로젝트 경로
-    nodeProjectDir = file("$projectDir/front")
-    version = '21.1.0'
-    download = true
-}
-
-task npmBuild(type: NpmTask) {
-    dependsOn npmInstall
-    args = ['run', 'build']
-}
-
-task copyFrontEnd(type: Copy) {
-    dependsOn npmBuild
-    from 'front/build'
-    into 'build/resources/main/static/.'
-}
-
-task cleanFrontEnd(type: Delete) {
-    delete "$projectDir/front/build", "$projectDir/front/node_modules"
-}
-
-npmBuild.dependsOn npmInstall
-copyFrontEnd.dependsOn npmBuild
-compileJava.dependsOn copyFrontEnd
-
-clean.dependsOn cleanFrontEnd
+//node {
+//    // 프론트엔드 프로젝트 경로
+//    nodeProjectDir = file("$projectDir/front")
+//    version = '21.1.0'
+//    download = true
+//}
+//
+//task npmBuild(type: NpmTask) {
+//    dependsOn npmInstall
+//    args = ['run', 'build']
+//}
+//
+//task copyFrontEnd(type: Copy) {
+//    dependsOn npmBuild
+//    from 'front/build'
+//    into 'build/resources/main/static/.'
+//}
+//
+//task cleanFrontEnd(type: Delete) {
+//    delete "$projectDir/front/build", "$projectDir/front/node_modules"
+//}
+//
+//npmBuild.dependsOn npmInstall
+//copyFrontEnd.dependsOn npmBuild
+//compileJava.dependsOn copyFrontEnd
+//
+//clean.dependsOn cleanFrontEnd
