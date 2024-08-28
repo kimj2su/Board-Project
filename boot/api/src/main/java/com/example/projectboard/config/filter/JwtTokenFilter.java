@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
   private static final Logger log = LoggerFactory.getLogger(JwtTokenFilter.class);
+  private static final List<String> TOKEN_IN_PARAM_URLS = List.of("/posts/1/subscribe");
   private final String key;
   private final MemberService memberService;
 
@@ -32,17 +34,22 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-
-    //get header
-    final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (header == null || !header.startsWith("Bearer ")) {
-      log.error("Authorization Header does not start with Bearer {} \n", request.getRequestURL());
-      filterChain.doFilter(request, response);
-      return;
-    }
-
+    final String token;
     try {
-      final String token = header.split(" ")[1].trim();
+      if (TOKEN_IN_PARAM_URLS.contains(request.getRequestURI())) {
+        log.info("Request with {} check the quert param", request.getRequestURL());
+        token = request.getQueryString().split("=")[1].trim();
+      } else {
+        //get header
+        final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (header == null || !header.startsWith("Bearer ")) {
+          log.error("Authorization Header does not start with Bearer {} \n",
+              request.getRequestURL());
+          filterChain.doFilter(request, response);
+          return;
+        }
+        token = header.split(" ")[1].trim();
+      }
 
       if (JwtTokenUtils.isExpired(token, key)) {
         log.error("Key is expired");

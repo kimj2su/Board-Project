@@ -8,6 +8,9 @@ import com.example.projectboard.post.appllication.dto.v1.request.CreatePostReque
 import com.example.projectboard.post.appllication.dto.v1.request.ModifyPostRequestDto;
 import com.example.projectboard.post.appllication.dto.v1.response.PaginationPostResponse;
 import com.example.projectboard.post.appllication.dto.v1.response.PostResponse;
+import com.example.projectboard.sse.application.SseService;
+import com.example.projectboard.support.response.ApiResponse;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,68 +24,81 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.projectboard.support.response.ApiResponse;
-
-import java.util.List;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/posts")
 public class PostController {
 
-    private final PostService postService;
-    private final PaginationService paginationService;
+  private final PostService postService;
+  private final SseService sseService;
+  private final PaginationService paginationService;
 
-    public PostController(PostService postService, PaginationService paginationService) {
-        this.postService = postService;
-        this.paginationService = paginationService;
-    }
+  public PostController(PostService postService, SseService sseService,
+      PaginationService paginationService) {
+    this.postService = postService;
+    this.sseService = sseService;
+    this.paginationService = paginationService;
+  }
 
 
-    @GetMapping("/{id}")
-    public ApiResponse<PostResponse> findPost(@PathVariable Long id) {
-        return ApiResponse.success(PostResponse.from(postService.findPost(id)));
-    }
+  @GetMapping("/{id}")
+  public ApiResponse<PostResponse> findPost(@PathVariable Long id) {
+    return ApiResponse.success(PostResponse.from(postService.findPost(id)));
+  }
 
-    @GetMapping
-    public ApiResponse<PaginationPostResponse> findAllPost(
-            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        Page<PostDto> posts = postService.findAllPost(pageable);
-        List<Integer> paginationBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), posts.getTotalPages());
+  @GetMapping
+  public ApiResponse<PaginationPostResponse> findAllPost(
+      @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+  ) {
+    Page<PostDto> posts = postService.findAllPost(pageable);
+    List<Integer> paginationBarNumbers = paginationService.getPaginationBarNumbers(
+        pageable.getPageNumber(), posts.getTotalPages());
 
-        return ApiResponse.success(PaginationPostResponse.from(posts.getNumber(), posts.getTotalPages(), posts.map(PostResponse::from).stream().toList(), paginationBarNumbers));
-    }
+    return ApiResponse.success(PaginationPostResponse.from(posts.getNumber(), posts.getTotalPages(),
+        posts.map(PostResponse::from).stream().toList(), paginationBarNumbers));
+  }
 
-    @PostMapping
-    public ApiResponse<PostResponse> createPost(
-            @AuthenticationPrincipal MemberDto memberDto,
-            @RequestBody CreatePostRequestDto request
-    ) {
-        return ApiResponse.success(PostResponse.from(postService.createPost(request.toPostDto(memberDto))));
-    }
+  @PostMapping
+  public ApiResponse<PostResponse> createPost(
+      @AuthenticationPrincipal MemberDto memberDto,
+      @RequestBody CreatePostRequestDto request
+  ) {
+    return ApiResponse.success(
+        PostResponse.from(postService.createPost(request.toPostDto(memberDto))));
+  }
 
-    @PatchMapping("/{id}")
-    public ApiResponse<Void> modifyPost(
-            @PathVariable Long id,
-            @AuthenticationPrincipal MemberDto memberDto,
-            @RequestBody ModifyPostRequestDto request
-    ) {
-        postService.modifyPost(id, request.toPostDto(memberDto));
-        return ApiResponse.success();
-    }
+  @PatchMapping("/{id}")
+  public ApiResponse<Void> modifyPost(
+      @PathVariable Long id,
+      @AuthenticationPrincipal MemberDto memberDto,
+      @RequestBody ModifyPostRequestDto request
+  ) {
+    postService.modifyPost(id, request.toPostDto(memberDto));
+    return ApiResponse.success();
+  }
 
-    @DeleteMapping("/{id}")
-    public ApiResponse<Void> deletePost(@PathVariable Long id, @AuthenticationPrincipal MemberDto memberDto) {
-        postService.deletePost(id, memberDto);
-        return ApiResponse.success();
-    }
+  @DeleteMapping("/{id}")
+  public ApiResponse<Void> deletePost(@PathVariable Long id,
+      @AuthenticationPrincipal MemberDto memberDto) {
+    postService.deletePost(id, memberDto);
+    return ApiResponse.success();
+  }
 
-    @PostMapping("/{id}/validation")
-    public ApiResponse<Void> validationPost(
-            @PathVariable Long id,
-            @AuthenticationPrincipal MemberDto memberDto
-    ) {
-        postService.validationPost(id, memberDto);
-        return ApiResponse.success();
-    }
+  @PostMapping("/{id}/validation")
+  public ApiResponse<Void> validationPost(
+      @PathVariable Long id,
+      @AuthenticationPrincipal MemberDto memberDto
+  ) {
+    postService.validationPost(id, memberDto);
+    return ApiResponse.success();
+  }
+
+  @GetMapping("/{id}/subscribe")
+  public SseEmitter subscribe(
+      @PathVariable Long id,
+      @AuthenticationPrincipal MemberDto memberDto
+  ) {
+    return sseService.connectPost(memberDto, id);
+  }
 }
