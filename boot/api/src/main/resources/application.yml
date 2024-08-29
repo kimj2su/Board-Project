@@ -10,7 +10,7 @@ management:
       path-mapping:
         health: health_check
         exposure:
-            include: "*"
+          include: "*"
 ---
 spring.config.activate.on-profile: local
 
@@ -20,6 +20,28 @@ jwt:
   #30 days
   token-expired-time-ms: 2592000000
 
+spring:
+  kafka:
+    #    properties:
+    #      security.protocol: SASL_SSL
+    #      sasl.mechanism: SCRAM-SHA-256
+    #      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="r2rj2fh0" password="e_BnIr6ESAbpmuu7L7XugsMNmYlx3eFq";
+    consumer:
+      properties.spring.json.trusted.packages: "*"
+      bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
+      group-id: sse
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    listener:
+      ack-mode: MANUAL
+    producer:
+      bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties.enable.idempotence: false
+    topic:
+      sse: sse
 ---
 
 spring.config.activate.on-profile: dev

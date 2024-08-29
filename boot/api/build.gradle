@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation 'org.springframework.kafka:spring-kafka'
 //    api 'com.github.kimj2su:jwt-auth:main-SNAPSHOT'
     //Jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'

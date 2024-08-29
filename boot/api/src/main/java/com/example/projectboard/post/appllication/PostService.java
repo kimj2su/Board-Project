@@ -5,7 +5,8 @@ import com.example.projectboard.member.application.dto.MemberDto;
 import com.example.projectboard.post.Post;
 import com.example.projectboard.post.PostRepository;
 import com.example.projectboard.post.appllication.dto.PostDto;
-import com.example.projectboard.sse.application.SseService;
+import com.example.projectboard.sse.event.SseEvent;
+import com.example.projectboard.sse.producer.SseProducer;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.PostException;
 import org.springframework.data.domain.Page;
@@ -18,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
   private final PostRepository postRepository;
-  private final SseService sseService;
+  private final SseProducer sseProducer;
 
-  public PostService(PostRepository postRepository, SseService sseService) {
+  public PostService(PostRepository postRepository, SseProducer sseProducer) {
     this.postRepository = postRepository;
-    this.sseService = sseService;
+    this.sseProducer = sseProducer;
   }
 
   @Transactional(readOnly = true)
@@ -44,9 +45,8 @@ public class PostService {
   }
 
   public void modifyPost(Long id, PostDto postDto) {
-    Post post = validation(id, postDto.memberDto());
-    post.modifyPost(postDto.title(), postDto.content());
-    sseService.send(postDto.memberDto(), post.getId());
+    sseProducer.send(
+        new SseEvent(postDto.memberDto().id(), id, postDto.title(), postDto.content()));
   }
 
   public void deletePost(Long id, MemberDto memberDto) {
