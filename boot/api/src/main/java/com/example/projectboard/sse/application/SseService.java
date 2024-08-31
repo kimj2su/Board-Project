@@ -5,6 +5,7 @@ import com.example.projectboard.member.MemberRepository;
 import com.example.projectboard.member.application.dto.MemberDto;
 import com.example.projectboard.post.Post;
 import com.example.projectboard.post.PostRepository;
+import com.example.projectboard.post.appllication.dto.PostDto;
 import com.example.projectboard.support.error.ErrorType;
 import com.example.projectboard.support.error.PostException;
 import jakarta.transaction.Transactional;
@@ -42,7 +43,7 @@ public class SseService {
       try {
         sseEmitter.send(
             SseEmitter.event().id(post.getId().toString()).name(SSE_NAME)
-                .data("새로운 게시글이 등록되었습니다."));
+                .data(PostDto.from(post)));
       } catch (IOException e) {
         emitterRepository.delete(memberId, post.getId());
         throw new PostException(ErrorType.POST_SSE_ERROR, "SSE 전송 중 오류가 발생했습니다.");
@@ -57,7 +58,8 @@ public class SseService {
     sseEmitter.onTimeout(() -> emitterRepository.delete(memberDto.id(), postId));
 
     try {
-      sseEmitter.send(SseEmitter.event().id("").name(SSE_NAME).data("연결 성공"));
+      sseEmitter.send(
+          SseEmitter.event().id(String.valueOf(memberDto.id())).name(SSE_NAME).data("연결 성공"));
     } catch (IOException e) {
       throw new PostException(ErrorType.POST_SSE_ERROR, "SSE 연결 중 오류가 발생했습니다.");
     }

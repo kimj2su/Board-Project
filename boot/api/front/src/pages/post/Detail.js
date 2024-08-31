@@ -48,7 +48,8 @@ const Detail = (props) => {
 
     eventSource.addEventListener("post", function (event) {
       console.log(event.data);
-      fetch();
+      // fetch();
+      setPost(event.data);
     });
 
     eventSource.addEventListener("error", function (event) {
